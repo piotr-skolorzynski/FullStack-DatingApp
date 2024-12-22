@@ -1,7 +1,7 @@
 using API.Data;
 using API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -11,17 +11,17 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public ActionResult<IEnumerable<AppUser>> GetUsers() //api/users
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() //api/users
         {
-            var users = context.Users.ToList();
+            var users = await context.Users.ToListAsync();
 
             return users;
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<AppUser> GetUser(int id) //api/users/2
+        public async Task<ActionResult<AppUser>> GetUser(int id) //api/users/2
         {
-            var user = context.Users.Find(id);
+            var user = await context.Users.FindAsync(id);
 
             if (user == null) return NotFound();
 
