@@ -31,6 +31,28 @@ namespace API.Controllers
             return user;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto) 
+        {
+            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+
+            if (user == null) return Unauthorized("Invalid username"); //powinno być "... or password" na razie tak łatwiej testować co nie działa
+
+            //dzięki podaniu passwordSalt będzie można obliczyć hash
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+
+            //pętla po tablicy bajtów
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password"); //zmienić później treść
+            }
+
+            //jeśli wyjdziemy z pętli to wiemy że jesteśmy uwierzytelnieni
+            return user;
+        }
+
         private async Task<bool> UserExists(string username)
         {
             return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
