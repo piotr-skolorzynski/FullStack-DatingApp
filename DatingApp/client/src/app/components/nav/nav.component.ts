@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { LoginFormGroup } from '../../models';
+import { AccountService } from '../../services';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -16,6 +17,7 @@ import { LoginFormGroup } from '../../models';
 })
 export class NavComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
+  private readonly accountService = inject(AccountService);
 
   public loginForm: FormGroup<LoginFormGroup>;
 
@@ -24,7 +26,17 @@ export class NavComponent implements OnInit {
   }
 
   public onLogin(): void {
-    console.log(this.loginForm);
+    const credentials = {
+      username: this.loginForm.controls.username.value,
+      password: this.loginForm.controls.password.value,
+    };
+    console.log(credentials);
+    this.accountService
+      .login(credentials)
+      .pipe(tap(response => console.log(response)))
+      .subscribe({
+        error: (error: any) => console.log(error),
+      });
   }
 
   private initializeLoginForm(): void {
