@@ -14,6 +14,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      @if(isLoggedIn) {
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link">Matches</a>
@@ -24,9 +25,31 @@
         <li class="nav-item">
           <a class="nav-link">Messages</a>
         </li>
+        <!-- temporary -->
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
       </ul>
 
-      <form class="d-flex" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="dropdown">
+        <button
+          class="btn btn-outline-success dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Welcome user
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item">Edit profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+        </ul>
+      </div>
+
+      } @else {
+      <form
+        class="d-flex ms-auto"
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()">
         <input
           class="form-control me-2"
           formControlName="username"
@@ -41,6 +64,7 @@
           aria-label="Password" />
         <button class="btn btn-outline-success" type="submit">Login</button>
       </form>
+      }
     </div>
   </div>
 </nav>

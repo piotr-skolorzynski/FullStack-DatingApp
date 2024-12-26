@@ -20,6 +20,7 @@ export class NavComponent implements OnInit {
   private readonly accountService = inject(AccountService);
 
   public loginForm: FormGroup<LoginFormGroup>;
+  public isLoggedIn = false;
 
   public ngOnInit(): void {
     this.initializeLoginForm();
@@ -33,10 +34,21 @@ export class NavComponent implements OnInit {
     console.log(credentials);
     this.accountService
       .login(credentials)
-      .pipe(tap(response => console.log(response)))
+      .pipe(
+        tap(response => {
+          console.log(response);
+          this.isLoggedIn = true;
+          this.loginForm.reset(); //check why is not clearing data
+        })
+      )
       .subscribe({
         error: (error: any) => console.log(error),
       });
+  }
+
+  public logout(): void {
+    //temp sol
+    this.isLoggedIn = false;
   }
 
   private initializeLoginForm(): void {
