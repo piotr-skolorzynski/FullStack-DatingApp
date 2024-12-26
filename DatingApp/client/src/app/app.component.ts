@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { NavComponent } from './nav/nav.component';
+import { NavComponent } from './components';
 
 @Component({
   selector: 'app-root',

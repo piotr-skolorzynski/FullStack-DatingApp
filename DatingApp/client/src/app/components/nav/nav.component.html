@@ -26,14 +26,16 @@
         </li>
       </ul>
 
-      <form class="d-flex" role="search">
+      <form class="d-flex" [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <input
           class="form-control me-2"
+          formControlName="username"
           type="text"
           placeholder="Username"
           aria-label="Username" />
         <input
           class="form-control me-2"
+          formControlName="password"
           type="password"
           placeholder="Password"
           aria-label="Password" />
