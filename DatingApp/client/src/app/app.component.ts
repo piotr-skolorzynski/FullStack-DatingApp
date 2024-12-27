@@ -1,6 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { rxResource } from '@angular/core/rxjs-interop';
 import { HomeComponent } from './pages';
 import { NavComponent } from './components';
 import { AccountService } from './services';
@@ -13,15 +11,8 @@ import { AccountService } from './services';
 })
 export class AppComponent implements OnInit {
   private readonly accountService = inject(AccountService);
-  private readonly http = inject(HttpClient);
-  private readonly url = 'https://localhost:5001/api/users';
 
-  public title = 'Dating App';
-  public users = rxResource({
-    loader: () => this.http.get<any>(this.url),
-  });
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setCurrentUser();
   }
 

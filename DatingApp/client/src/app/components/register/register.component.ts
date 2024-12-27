@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormBuilder,
   FormGroup,
@@ -14,9 +15,16 @@ import { RegisterFormGroup } from '../../models';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
+  public cancelled = output<void>();
+
+  // private readonly http = inject(HttpClient);
+  // private readonly url = 'https://localhost:5001/api/users';
   private readonly fb = inject(FormBuilder);
 
   public registerForm: FormGroup<RegisterFormGroup>;
+  // public users = rxResource({
+  //   loader: () => this.http.get<any[]>(this.url),
+  // });
 
   public ngOnInit(): void {
     this.initializeRegisterForm();
@@ -27,7 +35,7 @@ export class RegisterComponent implements OnInit {
   }
 
   public cancel(): void {
-    console.log();
+    this.cancelled.emit();
   }
 
   private initializeRegisterForm(): void {

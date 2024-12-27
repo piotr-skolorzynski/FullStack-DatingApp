@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RegisterComponent } from '../../components/register/register.component';
+import { Component, inject } from '@angular/core';
+import { RegisterComponent } from '../../components';
 
 @Component({
   selector: 'app-home',

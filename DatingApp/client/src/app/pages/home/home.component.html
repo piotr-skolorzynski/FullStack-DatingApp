@@ -2,7 +2,7 @@
   @if(registerMode) {
   <div class="row justify-content-center">
     <div class="col-4">
-      <app-register />
+      <app-register (cancelled)="toggleRegisterMode()" />
     </div>
   </div>
   } @else {
