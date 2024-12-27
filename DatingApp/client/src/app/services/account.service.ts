@@ -11,6 +11,21 @@ export class AccountService {
   private readonly baseUrl = 'https://localhost:5001/api';
   public currentUser = signal<IUser | null>(null);
 
+  public register(credentials: ILoginCredentials): Observable<IUser> {
+    return this.http
+      .post<IUser>(`${this.baseUrl}/account/register`, credentials)
+      .pipe(
+        map(user => {
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            this.currentUser.set(user);
+          }
+
+          return user;
+        })
+      );
+  }
+
   public login(credentials: ILoginCredentials): Observable<IUser> {
     return this.http
       .post<IUser>(`${this.baseUrl}/account/login`, credentials)

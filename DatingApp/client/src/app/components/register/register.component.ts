@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RegisterFormGroup } from '../../models';
+import { AccountService } from '../../services';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
 
   // private readonly http = inject(HttpClient);
   // private readonly url = 'https://localhost:5001/api/users';
+  private readonly accountService = inject(AccountService);
   private readonly fb = inject(FormBuilder);
 
   public registerForm: FormGroup<RegisterFormGroup>;
@@ -31,7 +33,18 @@ export class RegisterComponent implements OnInit {
   }
 
   public register(): void {
-    console.log(this.registerForm);
+    const newUser = {
+      username: this.registerForm.controls.username.value,
+      password: this.registerForm.controls.password.value,
+    };
+
+    this.accountService.register(newUser).subscribe({
+      next: response => {
+        console.log(response);
+        this.cancel();
+      },
+      error: err => console.log(err),
+    });
   }
 
   public cancel(): void {
