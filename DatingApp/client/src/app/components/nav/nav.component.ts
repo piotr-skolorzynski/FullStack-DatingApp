@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { tap } from 'rxjs';
-import { LoginFormGroup } from '../../models';
+import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
 
 @Component({
@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   public readonly accountService = inject(AccountService);
-  public loginForm: FormGroup<LoginFormGroup>;
+  public loginForm: FormGroup<RegisterFormGroup>;
 
   public ngOnInit(): void {
     this.initializeLoginForm();
@@ -49,7 +49,7 @@ export class NavComponent implements OnInit {
   }
 
   private initializeLoginForm(): void {
-    this.loginForm = this.fb.group<LoginFormGroup>({
+    this.loginForm = this.fb.group<RegisterFormGroup>({
       username: this.fb.nonNullable.control('', {
         validators: [Validators.required, Validators.maxLength(100)],
       }),

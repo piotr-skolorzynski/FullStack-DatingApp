@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { HomeComponent } from './pages';
 import { NavComponent } from './components';
 import { AccountService } from './services';
 
@@ -8,7 +9,7 @@ import { AccountService } from './services';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [NavComponent],
+  imports: [NavComponent, HomeComponent],
 })
 export class AppComponent implements OnInit {
   private readonly accountService = inject(AccountService);
