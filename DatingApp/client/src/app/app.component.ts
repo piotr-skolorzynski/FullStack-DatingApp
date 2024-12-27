@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HomeComponent } from './pages';
-import { NavComponent } from './components';
+import { HomeComponent, NavComponent } from './components';
 import { AccountService } from './services';
 
 @Component({
