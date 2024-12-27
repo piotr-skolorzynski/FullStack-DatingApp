@@ -5,9 +5,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { tap } from 'rxjs';
 import { LoginFormGroup } from '../../models';
 import { AccountService } from '../../services';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -17,10 +17,9 @@ import { tap } from 'rxjs';
 })
 export class NavComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly accountService = inject(AccountService);
 
+  public readonly accountService = inject(AccountService);
   public loginForm: FormGroup<LoginFormGroup>;
-  public isLoggedIn = false;
 
   public ngOnInit(): void {
     this.initializeLoginForm();
@@ -31,14 +30,13 @@ export class NavComponent implements OnInit {
       username: this.loginForm.controls.username.value,
       password: this.loginForm.controls.password.value,
     };
-    console.log(credentials);
+
     this.accountService
       .login(credentials)
       .pipe(
         tap(response => {
           console.log(response);
-          this.isLoggedIn = true;
-          this.loginForm.reset(); //check why is not clearing data
+          this.loginForm.reset();
         })
       )
       .subscribe({
@@ -47,8 +45,7 @@ export class NavComponent implements OnInit {
   }
 
   public logout(): void {
-    //temp sol
-    this.isLoggedIn = false;
+    this.accountService.logout();
   }
 
   private initializeLoginForm(): void {

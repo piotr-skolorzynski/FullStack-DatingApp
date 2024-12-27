@@ -14,7 +14,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      @if(isLoggedIn) {
+      @if(accountService.currentUser()) {
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a href="" class="nav-link">Matches</a>
@@ -42,7 +42,6 @@
           </li>
         </ul>
       </div>
-
       } @else {
       <form
         class="d-flex ms-auto"
