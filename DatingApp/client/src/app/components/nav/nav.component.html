@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-body-tertiary fixed-top">
+<nav class="navbar navbar-expand-md bg-primary fixed-top">
   <div class="container">
     <a class="navbar-brand" routerLink="/">Datting App</a>
 
@@ -35,13 +35,14 @@
 
       <div class="dropdown">
         <button
-          class="btn btn-outline-success dropdown-toggle"
+          class="btn btn-success dropdown-toggle"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          Welcome user
+          Welcome {{ accountService.currentUser()?.username | titlecase }}
         </button>
-        <ul class="dropdown-menu">
+
+        <ul class="dropdown-menu mt-3">
           <li><a class="dropdown-item">Edit profile</a></li>
           <li>
             <a class="dropdown-item" (click)="onLogout()">Logout</a>
@@ -65,7 +66,7 @@
           type="password"
           placeholder="Password"
           aria-label="Password" />
-        <button class="btn btn-outline-success" type="submit">Login</button>
+        <button class="btn btn-success" type="submit">Login</button>
       </form>
       }
     </div>
