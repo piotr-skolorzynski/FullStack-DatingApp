@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit {
   // private readonly url = 'https://localhost:5001/api/users';
   private readonly accountService = inject(AccountService);
   private readonly fb = inject(FormBuilder);
+  private readonly toastr = inject(ToastrService);
 
   public registerForm: FormGroup<RegisterFormGroup>;
   // public users = rxResource({
@@ -43,7 +45,7 @@ export class RegisterComponent implements OnInit {
         console.log(response);
         this.cancel();
       },
-      error: err => console.log(err),
+      error: error => this.toastr.error(error.error),
     });
   }
 

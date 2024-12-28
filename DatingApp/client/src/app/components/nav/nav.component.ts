@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
 
@@ -19,6 +20,7 @@ import { AccountService } from '../../services';
 export class NavComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
 
   public readonly accountService = inject(AccountService);
   public loginForm: FormGroup<RegisterFormGroup>;
@@ -42,11 +44,11 @@ export class NavComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (error: any) => console.log(error),
+        error: (error: any) => this.toastr.error(error.error),
       });
   }
 
-  public logout(): void {
+  public onLogout(): void {
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
