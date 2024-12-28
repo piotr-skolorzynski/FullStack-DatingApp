@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,7 @@ import { AccountService } from '../../services';
 })
 export class NavComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
 
   public readonly accountService = inject(AccountService);
   public loginForm: FormGroup<RegisterFormGroup>;
@@ -35,9 +36,9 @@ export class NavComponent implements OnInit {
     this.accountService
       .login(credentials)
       .pipe(
-        tap(response => {
-          console.log(response);
+        tap(_ => {
           this.loginForm.reset();
+          this.router.navigateByUrl('/members');
         })
       )
       .subscribe({
@@ -47,6 +48,7 @@ export class NavComponent implements OnInit {
 
   public logout(): void {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 
   private initializeLoginForm(): void {
