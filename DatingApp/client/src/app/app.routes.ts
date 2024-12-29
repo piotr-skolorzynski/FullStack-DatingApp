@@ -5,6 +5,8 @@ import {
   MemberDetailsComponent,
   MemberListComponent,
   MessagesComponent,
+  NotFoundComponent,
+  ServerErrorComponent,
 } from './components';
 import { authGuard } from './guards';
 
@@ -28,6 +30,16 @@ export const routes: Routes = [
       { path: 'lists', component: ListsComponent, title: 'Lists' },
       { path: 'messages', component: MessagesComponent, title: 'Messages' },
     ],
+  },
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
+    title: 'Not found',
+  },
+  {
+    path: 'server-error',
+    component: ServerErrorComponent,
+    title: 'Server error',
   },
   {
     path: '**',
