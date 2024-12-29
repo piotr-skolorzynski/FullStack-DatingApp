@@ -6,7 +6,7 @@ import {
   MemberListComponent,
   MessagesComponent,
 } from './components';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from './guards';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Datting App' },
