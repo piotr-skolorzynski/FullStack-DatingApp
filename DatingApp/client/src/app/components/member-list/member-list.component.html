@@ -1,1 +1,5 @@
-<p>member-list works!</p>
+<ul>
+  @for(member of members.value(); track member.id) {
+  <li>{{ member.username }}</li>
+  }
+</ul>

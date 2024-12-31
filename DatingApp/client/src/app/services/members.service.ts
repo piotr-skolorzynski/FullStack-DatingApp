@@ -13,10 +13,6 @@ export class MembersService {
   private readonly accountService = inject(AccountService);
   private readonly baseUrl = environment.apiUrl;
 
-  // public users = rxResource({
-  //   loader: () => this.http.get<any[]>(this.url),
-  // });
-
   public getMembers(): Observable<IMember[]> {
     return this.http.get<IMember[]>(
       `${this.baseUrl}users`,
