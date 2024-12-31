@@ -2,13 +2,14 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { ILoginCredentials, IUser } from '../interfaces';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'https://localhost:5001/api';
+  private readonly baseUrl = environment.apiUrl;
   public currentUser = signal<IUser | null>(null);
 
   public register(credentials: ILoginCredentials): Observable<IUser> {

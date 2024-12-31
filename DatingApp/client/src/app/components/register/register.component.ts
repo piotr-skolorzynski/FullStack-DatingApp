@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   FormBuilder,
   FormGroup,
@@ -19,16 +18,11 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent implements OnInit {
   public cancelled = output<void>();
 
-  // private readonly http = inject(HttpClient);
-  // private readonly url = 'https://localhost:5001/api/users';
   private readonly accountService = inject(AccountService);
   private readonly fb = inject(FormBuilder);
   private readonly toastr = inject(ToastrService);
 
   public registerForm: FormGroup<RegisterFormGroup>;
-  // public users = rxResource({
-  //   loader: () => this.http.get<any[]>(this.url),
-  // });
 
   public ngOnInit(): void {
     this.initializeRegisterForm();
