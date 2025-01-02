@@ -10,4 +10,22 @@
 
 .card-img-wrapper {
   overflow: hidden;
+  position: relative;
+}
+
+.card-img-wrapper:hover .member-icons {
+  opacity: 1;
+  bottom: 0;
+}
+
+.member-icons {
+  position: absolute;
+  bottom: -30%;
+  left: 0;
+  right: 0;
+  opacity: 0;
+}
+
+.animate {
+  transition: all 0.5s ease-in-out;
 }
