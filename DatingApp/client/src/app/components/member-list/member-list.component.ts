@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { MembersService } from '../../services';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { MembersService } from '../../services';
+import { MemberCardComponent } from '../member-card/member-card.component';
 
 @Component({
   selector: 'app-member-list',
-  imports: [],
+  imports: [MemberCardComponent],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.css',
 })
