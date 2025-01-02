@@ -5,12 +5,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
 import { routes } from './app.routes';
-import { errorInterceptor } from './interceptors';
+import { errorInterceptor, jwtInterceptor } from './interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([errorInterceptor])),
+    provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor])),
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
     provideToastr({
