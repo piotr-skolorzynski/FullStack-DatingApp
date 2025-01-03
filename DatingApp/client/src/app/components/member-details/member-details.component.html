@@ -1,1 +1,140 @@
-<p>member-details works!</p>
+@if(member.value(); as member) {
+<div class="row">
+  <div class="col-4">
+    <div class="card p-3">
+      <img
+        src="{{ member.photoUrl || 'assets/user.png' }}"
+        alt="{{ member.knownAs }}"
+        class="card-img mx-auto p-0" />
+
+      <div class="card-body">
+        <div>
+          <strong>Location:</strong>
+          <p>{{ member.city }}, {{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age:</strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Last Active:</strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Member since:</strong>
+          <p>{{ member.created }}</p>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="btn-group d-flex gap-3">
+          <button class="btn btn-primary">Like</button>
+          <button class="btn btn-succes">Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8">
+    <ul class="nav nav-tabs fw-bold" id="memberTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="about-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#about-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="about-tab-pane"
+          aria-selected="true">
+          About {{ member.knownAs }}
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="interests-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#interests-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="interests-tab-pane"
+          aria-selected="false">
+          Interests
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="photos-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#photos-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="photos-tab-pane"
+          aria-selected="false">
+          Photos
+        </button>
+      </li>
+
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="messages-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#messages-tab-pane"
+          type="button"
+          role="tab"
+          aria-controls="messages-tab-pane"
+          aria-selected="false">
+          Messages
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="memberTabContent">
+      <div
+        class="tab-pane fade show active"
+        id="about-tab-pane"
+        role="tabpanel"
+        aria-labelledby="about-tab"
+        tabindex="0">
+        <h4 class="mt-3">Description</h4>
+        <p>{{ member.introduction }}</p>
+        <h4 class="mt-3">Looking for</h4>
+        <p>{{ member.lookingFor }}</p>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="interests-tab-pane"
+        role="tabpanel"
+        aria-labelledby="interests-tab"
+        tabindex="0">
+        <h4 class="mt-3">Interests</h4>
+        <p>{{ member.interests }}</p>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="photos-tab-pane"
+        role="tabpanel"
+        aria-labelledby="photos-tab"
+        tabindex="0">
+        <h4 class="mt-3">Photos will go here</h4>
+      </div>
+
+      <div
+        class="tab-pane fade"
+        id="messages-tab-pane"
+        role="tabpanel"
+        aria-labelledby="messages-tab"
+        tabindex="0">
+        <h4 class="mt-3">Messages will go here</h4>
+      </div>
+    </div>
+  </div>
+</div>
+}
