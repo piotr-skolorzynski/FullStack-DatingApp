@@ -123,7 +123,12 @@
         role="tabpanel"
         aria-labelledby="photos-tab"
         tabindex="0">
-        <h4 class="mt-3">Photos will go here</h4>
+        <h4 class="mt-3">Photos</h4>
+        <div class="container" gallerize>
+          @for(photo of member.photos; track photo.id) {
+          <img [src]="photo.url" alt="" />
+          }
+        </div>
       </div>
 
       <div
