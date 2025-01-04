@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards';
 import {
   HomeComponent,
   ListsComponent,
   MemberDetailsComponent,
+  MemberEditComponent,
   MemberListComponent,
   MessagesComponent,
   NotFoundComponent,
   ServerErrorComponent,
 } from './components';
-import { authGuard } from './guards';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Datting App' },
@@ -26,6 +27,11 @@ export const routes: Routes = [
         path: 'members/:username',
         component: MemberDetailsComponent,
         title: 'Member Details',
+      },
+      {
+        path: 'member/edit',
+        component: MemberEditComponent,
+        title: 'Edit member',
       },
       { path: 'lists', component: ListsComponent, title: 'Lists' },
       { path: 'messages', component: MessagesComponent, title: 'Messages' },
