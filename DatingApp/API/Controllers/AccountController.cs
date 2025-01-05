@@ -3,7 +3,6 @@ using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Interfaces;
-using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +44,6 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized("Invalid username"); //powinno być "... or password" na razie tak łatwiej testować co nie działa
 
-            //dzięki podaniu passwordSalt będzie można obliczyć hash
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));

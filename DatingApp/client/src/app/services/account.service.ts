@@ -14,7 +14,7 @@ export class AccountService {
 
   public register(credentials: ILoginCredentials): Observable<IUser> {
     return this.http
-      .post<IUser>(`${this.baseUrl}/account/register`, credentials)
+      .post<IUser>(`${this.baseUrl}account/register`, credentials)
       .pipe(
         map(user => {
           if (user) {
@@ -29,7 +29,7 @@ export class AccountService {
 
   public login(credentials: ILoginCredentials): Observable<IUser> {
     return this.http
-      .post<IUser>(`${this.baseUrl}/account/login`, credentials)
+      .post<IUser>(`${this.baseUrl}account/login`, credentials)
       .pipe(
         map(user => {
           if (user) {
