@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, effect, HostListener, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -47,5 +47,12 @@ export class MemberEditComponent {
   public updateMember(): void {
     this.tostr.success('Profile updated successfully');
     this.memberForm.markAsPristine();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  public notify($event: any): void {
+    if (this.memberForm.dirty) {
+      $event.returnValue = true;
+    }
   }
 }

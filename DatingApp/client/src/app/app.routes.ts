@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards';
+import { authGuard, preventUnsavedChangesGuard } from './guards';
 import {
   HomeComponent,
   ListsComponent,
@@ -32,6 +32,7 @@ export const routes: Routes = [
         path: 'member/edit',
         component: MemberEditComponent,
         title: 'Edit member',
+        canDeactivate: [preventUnsavedChangesGuard],
       },
       { path: 'lists', component: ListsComponent, title: 'Lists' },
       { path: 'messages', component: MessagesComponent, title: 'Messages' },
