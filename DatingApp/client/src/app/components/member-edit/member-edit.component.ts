@@ -45,8 +45,12 @@ export class MemberEditComponent {
   });
 
   public updateMember(): void {
-    this.tostr.success('Profile updated successfully');
-    this.memberForm.markAsPristine();
+    this.memberService.updateMember(this.memberForm.value).subscribe({
+      next: _ => {
+        this.tostr.success('Profile updated successfully');
+        this.memberForm.markAsPristine();
+      },
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])
