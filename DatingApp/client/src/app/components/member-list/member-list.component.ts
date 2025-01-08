@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../services';
 import { MemberCardComponent } from '../member-card/member-card.component';
 
@@ -9,10 +8,12 @@ import { MemberCardComponent } from '../member-card/member-card.component';
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.css',
 })
-export class MemberListComponent {
-  private readonly memberService = inject(MembersService);
+export class MemberListComponent implements OnInit {
+  public readonly memberService = inject(MembersService);
 
-  public members = rxResource({
-    loader: () => this.memberService.getMembers(),
-  });
+  public ngOnInit(): void {
+    if (!this.memberService.members().length) {
+      this.memberService.getMembers();
+    }
+  }
 }
