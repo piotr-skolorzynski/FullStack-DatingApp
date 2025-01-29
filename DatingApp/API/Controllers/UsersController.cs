@@ -58,7 +58,10 @@ namespace API.Controllers
 
             user.Photos.Add(photo);
 
-            if (await userRepository.SaveAllAsync()) return mapper.Map<PhotoDto>(photo);
+            if (await userRepository.SaveAllAsync())
+                return CreatedAtAction(nameof(GetUser), new { username = user.UserName }, mapper.Map<PhotoDto>(photo));
+            //przekazujemy nazwę akcji kontrolera, parametr akcji tutaj jest to username oraz co chcemy zwrócić czyli mappera z PhotoDto 
+            //dzięki temu będziemy mieli dodane location header do naszej odpowiedzi
 
             return BadRequest("Problem adding photo");
         }
