@@ -4,10 +4,11 @@ import { NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService, AccountService } from '../../services';
+import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
 
 @Component({
   selector: 'app-member-edit',
-  imports: [NgClass, ReactiveFormsModule],
+  imports: [NgClass, PhotoEditorComponent, ReactiveFormsModule],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css',
 })
