@@ -140,7 +140,9 @@
         role="tabpanel"
         aria-labelledby="edit-photos-tab"
         tabindex="0">
-        <app-photo-editor [member]="member" />
+        <app-photo-editor
+          [member]="member"
+          (memberChange)="onMemberChange($event)" />
       </div>
     </div>
   </div>

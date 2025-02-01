@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService, AccountService } from '../../services';
 import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
+import { IMember } from '../../interfaces';
 
 @Component({
   selector: 'app-member-edit',
@@ -52,6 +53,12 @@ export class MemberEditComponent {
         this.memberForm.markAsPristine();
       },
     });
+  }
+
+  // TODO - teraz okazuje się że mam problem bo korzystam z rxResource a dla file uploader otrzymuję file i updatuje
+  //jego tabele ze zdjęciami i przesyłam tutaj żeby inputa w photo editor zuupdatować, może użycie rxResource.reoload
+  public onMemberChange(updatedUser: IMember) {
+    // this.member.reload()
   }
 
   @HostListener('window:beforeunload', ['$event'])
