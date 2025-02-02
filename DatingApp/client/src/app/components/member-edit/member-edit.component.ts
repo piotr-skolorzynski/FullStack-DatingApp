@@ -55,10 +55,8 @@ export class MemberEditComponent {
     });
   }
 
-  // TODO - teraz okazuje się że mam problem bo korzystam z rxResource a dla file uploader otrzymuję file i updatuje
-  //jego tabele ze zdjęciami i przesyłam tutaj żeby inputa w photo editor zuupdatować, może użycie rxResource.reoload
   public onMemberChange(updatedUser: IMember) {
-    // this.member.reload()
+    this.member.value.set(updatedUser);
   }
 
   @HostListener('window:beforeunload', ['$event'])
