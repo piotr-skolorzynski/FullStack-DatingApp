@@ -34,12 +34,21 @@
       </ul>
 
       <div class="dropdown">
+        <img
+          class="me-2"
+          src="{{
+            accountService.currentUser()?.photoUrl || 'assets/user.png'
+          }}"
+          alt="user main image" />
+
         <button
           class="btn btn-success dropdown-toggle"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          Welcome {{ accountService.currentUser()?.username | titlecase }}
+          <span>
+            Welcome {{ accountService.currentUser()?.username | titlecase }}
+          </span>
         </button>
 
         <ul class="dropdown-menu mt-3">
