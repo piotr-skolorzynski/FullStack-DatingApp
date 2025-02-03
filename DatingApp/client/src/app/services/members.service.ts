@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
-import { IMember } from '../interfaces';
+import { IMember, IPhoto } from '../interfaces';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -37,6 +37,24 @@ export class MembersService {
             members.map(m => (m.username === member.username ? member : m))
           )
         )
+      );
+  }
+
+  public setMainPhoto(photo: IPhoto): Observable<any> {
+    return this.http
+      .put(`${this.baseUrl}users/set-main-photo/${photo.id}`, {})
+      .pipe(
+        tap(() => {
+          this.members.update(members =>
+            members.map(member => {
+              if (member.photos.includes(photo)) {
+                member.photoUrl = photo.url;
+              }
+
+              return member;
+            })
+          );
+        })
       );
   }
 }

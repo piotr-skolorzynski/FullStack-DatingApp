@@ -4,7 +4,13 @@
     <img [src]="photo.url" alt="photo of user" class="img-thumbnail mb-1" />
 
     <div class="text-center">
-      <button class="btn btn-sm">Main</button>
+      <button
+        class="btn btn-sm me-2"
+        [ngClass]="photo.isMain ? 'btn-success active' : 'btn-outline-success'"
+        [disabled]="photo.isMain"
+        (click)="setMainPhoto(photo)">
+        Main
+      </button>
       <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
     </div>
   </div>

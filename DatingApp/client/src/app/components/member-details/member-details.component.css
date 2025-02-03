@@ -1,1 +1,5 @@
-
+div.container {
+  img {
+    max-height: 100px;
+  }
+}
