@@ -29,6 +29,18 @@ export class PhotoEditorComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
   }
 
+  public deletePhoto(photo: IPhoto): void {
+    this.memberService.deletePhoto(photo).subscribe({
+      next: _ => {
+        const updatedMember = { ...this.member() };
+        updatedMember.photos = updatedMember.photos.filter(
+          p => p.id !== photo.id
+        );
+        this.memberChange.emit(updatedMember);
+      },
+    });
+  }
+
   public setMainPhoto(photo: IPhoto): void {
     this.memberService.setMainPhoto(photo).subscribe({
       next: _ => {
