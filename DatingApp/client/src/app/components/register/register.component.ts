@@ -52,10 +52,14 @@ export class RegisterComponent implements OnInit {
   private initializeRegisterForm(): void {
     this.registerForm = this.fb.group<RegisterFormGroup>({
       username: this.fb.nonNullable.control('', {
-        validators: [Validators.required, Validators.maxLength(100)],
+        validators: [Validators.required],
       }),
       password: this.fb.nonNullable.control('', {
-        validators: [Validators.required],
+        validators: [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(8),
+        ],
       }),
       confirmPassword: this.fb.nonNullable.control('', {
         validators: [Validators.required],
