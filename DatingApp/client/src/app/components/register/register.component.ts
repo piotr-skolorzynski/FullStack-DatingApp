@@ -29,18 +29,20 @@ export class RegisterComponent implements OnInit {
   }
 
   public register(): void {
-    const newUser = {
-      username: this.registerForm.controls.username.value,
-      password: this.registerForm.controls.password.value,
-    };
+    console.log(this.registerForm.value);
 
-    this.accountService.register(newUser).subscribe({
-      next: response => {
-        console.log(response);
-        this.cancel();
-      },
-      error: error => this.toastr.error(error.error),
-    });
+    //refactor
+    // const newUser = {
+    //   username: this.registerForm.controls.username.value,
+    //   password: this.registerForm.controls.password.value,
+    // };
+    // this.accountService.register(newUser).subscribe({
+    //   next: response => {
+    //     console.log(response);
+    //     this.cancel();
+    //   },
+    //   error: error => this.toastr.error(error.error),
+    // });
   }
 
   public cancel(): void {
@@ -53,6 +55,9 @@ export class RegisterComponent implements OnInit {
         validators: [Validators.required, Validators.maxLength(100)],
       }),
       password: this.fb.nonNullable.control('', {
+        validators: [Validators.required],
+      }),
+      confirmPassword: this.fb.nonNullable.control('', {
         validators: [Validators.required],
       }),
     });

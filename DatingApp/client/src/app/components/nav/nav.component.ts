@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { RegisterFormGroup } from '../../models';
+import { LoginFormGroup } from '../../models';
 import { AccountService } from '../../services';
 
 @Component({
@@ -24,7 +24,7 @@ export class NavComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   public readonly accountService = inject(AccountService);
-  public loginForm: FormGroup<RegisterFormGroup>;
+  public loginForm: FormGroup<LoginFormGroup>;
 
   public ngOnInit(): void {
     this.initializeLoginForm();
@@ -55,7 +55,7 @@ export class NavComponent implements OnInit {
   }
 
   private initializeLoginForm(): void {
-    this.loginForm = this.fb.group<RegisterFormGroup>({
+    this.loginForm = this.fb.group<LoginFormGroup>({
       username: this.fb.nonNullable.control('', {
         validators: [Validators.required, Validators.maxLength(100)],
       }),

@@ -1,7 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-export type RegisterFormGroup = {
+export type LoginFormGroup = {
   username: FormControl<string>;
   password: FormControl<string>;
-  confirmPassword: FormControl<string>;
 };
