@@ -5,30 +5,66 @@
     <input
       id="username-input"
       type="text"
-      class="form-control"
+      class="form-control {{
+        registerForm.get('username')?.errors &&
+        registerForm.get('username')?.touched
+          ? 'is-invalid'
+          : ''
+      }}"
       placeholder="Username"
       formControlName="username" />
     <label for="username-input">Username</label>
+    <div class="invalid-feedback text-start">Please enter a username</div>
   </div>
 
   <div class="mb-3 form-floating">
     <input
       id="password-input"
       type="password"
-      class="form-control"
+      class="form-control {{
+        registerForm.get('password')?.errors &&
+        registerForm.get('password')?.touched
+          ? 'is-invalid'
+          : ''
+      }}"
       placeholder="Password"
       formControlName="password" />
     <label for="password-input">Password</label>
+    @if(registerForm.get('password')?.hasError('required')) {
+    <div class="invalid-feedback text-start">Please enter a password</div>
+    } @if(registerForm.get('password')?.hasError('minlength')) {
+    <div class="invalid-feedback text-start">
+      Password must be at least 4 characters
+    </div>
+    } @if(registerForm.get('password')?.hasError('maxlength')) {
+    <div class="invalid-feedback text-start">
+      Password must be at most 8 characters
+    </div>
+    }
   </div>
 
   <div class="mb-3 form-floating">
     <input
       id="confirm-password-input"
       type="password"
-      class="form-control"
+      class="form-control {{
+        registerForm.get('confirmPassword')?.errors &&
+        registerForm.get('confirmPassword')?.touched
+          ? 'is-invalid'
+          : ''
+      }}"
       placeholder="Confirm Password"
       formControlName="confirmPassword" />
     <label for="confirm-password-input">Confirm Password</label>
+    @if(registerForm.get('confirmPassword')?.hasError('required')) {
+    <div class="invalid-feedback text-start">
+      Please enter a confirm password
+    </div>
+    } @if(registerForm.get('confirmPassword')?.hasError('isMatching')) {
+    <div class="invalid-feedback text-start">
+      Confirm password must match password
+    </div>
+    }
   </div>
 
   <div class="form-group text-center">
