@@ -5,9 +5,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
-import { ToastrService } from 'ngx-toastr';
+import { matchValues } from '../../validators';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
   private readonly accountService = inject(AccountService);
   private readonly fb = inject(FormBuilder);
   private readonly toastr = inject(ToastrService);
+  private matchValues = matchValues;
 
   public registerForm: FormGroup<RegisterFormGroup>;
 
@@ -62,8 +64,14 @@ export class RegisterComponent implements OnInit {
         ],
       }),
       confirmPassword: this.fb.nonNullable.control('', {
-        validators: [Validators.required],
+        validators: [Validators.required, this.matchValues('password')],
       }),
+    });
+
+    //subscribe to password input field to update confirmPasword input value an trigger validation again
+    this.registerForm.controls.password.valueChanges.subscribe({
+      next: () =>
+        this.registerForm.controls.confirmPassword.updateValueAndValidity(),
     });
   }
 }
