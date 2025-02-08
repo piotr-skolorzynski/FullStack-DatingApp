@@ -16,7 +16,6 @@ export class TextInputComponent implements ControlValueAccessor {
   public id = input.required<string>();
   public label = input<string>('');
   public type = input<string>('text');
-  public placeholder = input<string>('');
 
   public get control(): FormControl {
     return this.ngControl.control as FormControl;

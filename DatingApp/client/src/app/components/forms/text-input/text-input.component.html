@@ -5,7 +5,7 @@
     class="form-control {{
       control.touched && control.invalid ? 'is-invalid' : ''
     }}"
-    [placeholder]="placeholder()"
+    [placeholder]="label()"
     [formControl]="control" />
   <label [for]="id()">{{ label() }}</label>
   @if(control.hasError('required')) {

@@ -2,23 +2,62 @@
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
 
+  <div class="mb-3">
+    <label class="me-2">I am a: </label>
+
+    <label class="form-check-label me-2">
+      <input
+        type="radio"
+        class="form-check-input"
+        value="male"
+        formControlName="gender" />
+      Male
+    </label>
+
+    <label class="form-check-label">
+      <input
+        type="radio"
+        class="form-check-input"
+        value="female"
+        formControlName="gender" />
+      Female
+    </label>
+  </div>
+
   <app-text-input
     id="username-input"
-    label="username"
-    placeholder="Username"
+    label="Username"
     [formControl]="registerForm.controls.username" />
+
+  <app-text-input
+    id="knownAs-input"
+    label="Known as"
+    [formControl]="registerForm.controls.knownAs" />
+
+  <app-text-input
+    id="date-of-birth-input"
+    label="Date of birth"
+    [formControl]="registerForm.controls.dateOfBirth" />
+
+  <app-text-input
+    id="city-input"
+    label="City"
+    [formControl]="registerForm.controls.city" />
+
+  <app-text-input
+    id="country-input"
+    label="Country"
+    [formControl]="registerForm.controls.country" />
 
   <app-text-input
     id="password-input"
     label="Password"
-    placeholder="Password"
     type="password"
     [formControl]="registerForm.controls.password" />
 
   <app-text-input
     id="confirm-password-input"
     label="Confirm Password"
-    placeholder="Confirm Password"
     type="password"
     [formControl]="registerForm.controls.confirmPassword" />
 

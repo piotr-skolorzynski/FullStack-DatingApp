@@ -10,6 +10,7 @@ import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
 import { matchValues } from '../../validators';
 import { TextInputComponent } from '../forms/text-input/text-input.component';
+import { Gender } from '../../enums';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ export class RegisterComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly toastr = inject(ToastrService);
   private matchValues = matchValues;
+  private gender = Gender;
 
   public registerForm: FormGroup<RegisterFormGroup>;
 
@@ -54,7 +56,20 @@ export class RegisterComponent implements OnInit {
 
   private initializeRegisterForm(): void {
     this.registerForm = this.fb.group<RegisterFormGroup>({
+      gender: this.fb.nonNullable.control(this.gender.Male),
       username: this.fb.nonNullable.control('', {
+        validators: [Validators.required],
+      }),
+      knownAs: this.fb.nonNullable.control('', {
+        validators: [Validators.required],
+      }),
+      dateOfBirth: this.fb.nonNullable.control('', {
+        validators: [Validators.required],
+      }),
+      city: this.fb.nonNullable.control('', {
+        validators: [Validators.required],
+      }),
+      country: this.fb.nonNullable.control('', {
         validators: [Validators.required],
       }),
       password: this.fb.nonNullable.control('', {
