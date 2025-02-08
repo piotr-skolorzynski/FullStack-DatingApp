@@ -9,10 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 import { RegisterFormGroup } from '../../models';
 import { AccountService } from '../../services';
 import { matchValues } from '../../validators';
+import { TextInputComponent } from '../forms/text-input/text-input.component';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TextInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
