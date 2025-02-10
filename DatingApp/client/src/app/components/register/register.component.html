@@ -62,8 +62,23 @@
     type="password"
     [formControl]="registerForm.controls.confirmPassword" />
 
+  @if(validationErrors) {
+  <div class="alert alert-danger">
+    <ul class="text-start">
+      @for(error of validationErrors; track $index) {
+      <li>{{ error }}</li>
+      }
+    </ul>
+  </div>
+  }
+
   <div class="form-group text-center">
-    <button class="btn btn-success me-2" type="submit">Register</button>
+    <button
+      class="btn btn-success me-2"
+      type="submit"
+      [disabled]="registerForm.invalid">
+      Register
+    </button>
     <button class="btn btn-default" type="button" (click)="cancel()">
       Cancel
     </button>
