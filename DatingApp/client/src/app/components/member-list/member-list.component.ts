@@ -10,10 +10,12 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 })
 export class MemberListComponent implements OnInit {
   public readonly memberService = inject(MembersService);
+  public pageNumber = 1;
+  public pageSize = 5;
 
   public ngOnInit(): void {
-    if (!this.memberService.members().length) {
-      this.memberService.getMembers();
+    if (!this.memberService.paginatedResult()) {
+      this.memberService.getMembers(this.pageNumber, this.pageSize);
     }
   }
 }
