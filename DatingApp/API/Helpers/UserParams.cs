@@ -12,4 +12,10 @@ public class UserParams
         get => _pageSize;
         set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
     }
+
+    //umożliwienie filtrownia po płci
+    public string? Gender { get; set; }
+    //Current user - żeby móc go nie uwzględniać w wynikach wyszukiwania
+    public string? CurrentUsername { get; set; }
+
 }
