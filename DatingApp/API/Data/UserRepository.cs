@@ -22,14 +22,16 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
     {
         var query = context.Users.AsQueryable();
 
-        //wprowadzenie filtrowania do zapytania na bazie paramsów
-        //wykluczenie obecnego użytkownika z wyszukiwania
         query = query.Where(x => x.UserName != userParams.CurrentUsername);
-        //jeśli została wybrana płeć to filtruj
         if (userParams.Gender != null)
         {
             query = query.Where(x => x.Gender == userParams.Gender);
         }
+
+        var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+        var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+
+        query = query.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <= maxDob);
 
         return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(mapper.ConfigurationProvider), userParams.PageNumber, userParams.PageSize);
     }
