@@ -46,9 +46,7 @@
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false">
-          <span>
-            Welcome {{ accountService.currentUser()?.username | titlecase }}
-          </span>
+          <span> Welcome {{ accountService.currentUser()?.knownAs }} </span>
         </button>
 
         <ul class="dropdown-menu mt-3">

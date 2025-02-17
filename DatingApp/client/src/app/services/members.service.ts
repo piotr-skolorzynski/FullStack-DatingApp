@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IMember, IPhoto } from '../interfaces';
-import { PaginatedResult } from '../models';
+import { PaginatedResult, UserParams } from '../models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -15,15 +15,16 @@ export class MembersService {
   // public members = signal<IMember[]>([]);
   public paginatedResult = signal<PaginatedResult<IMember[]> | null>(null);
 
-  public getMembers(pageNumber?: number, pageSize?: number): void {
-    let params = new HttpParams();
+  public getMembers(userParams: UserParams): void {
+    let params = this.setPaginationHeaders(
+      userParams.pageNumber,
+      userParams.pageSize
+    );
 
-    if (pageNumber && pageSize) {
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
-    }
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
 
-    //observe pozwoli nam nasłuchiwać również nagłówka response i paramsów
     this.http
       .get<IMember[]>(`${this.baseUrl}users`, { observe: 'response', params })
       .subscribe({
@@ -88,5 +89,19 @@ export class MembersService {
     //     );
     //   })
     // );
+  }
+
+  private setPaginationHeaders(
+    pageNumber: number,
+    pageSize: number
+  ): HttpParams {
+    let params = new HttpParams();
+
+    if (pageNumber && pageSize) {
+      params = params.append('pageNumber', pageNumber);
+      params = params.append('pageSize', pageSize);
+    }
+
+    return params;
   }
 }

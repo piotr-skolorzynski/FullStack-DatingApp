@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TitleCasePipe } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   FormBuilder,
@@ -14,7 +13,7 @@ import { AccountService } from '../../services';
 
 @Component({
   selector: 'app-nav',
-  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive, TitleCasePipe],
+  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })
