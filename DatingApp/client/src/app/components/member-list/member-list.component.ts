@@ -41,6 +41,7 @@ export class MemberListComponent implements OnInit {
   }
 
   public loadMembers(): void {
+    console.log(this.userParams);
     this.memberService.getMembers(this.userParams);
   }
 }
