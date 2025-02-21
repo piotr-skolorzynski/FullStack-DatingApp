@@ -12,10 +12,10 @@ public class LogUserActivity : IAsyncActionFilter
 
         if (context.HttpContext.User.Identity?.IsAuthenticated != true) return; //sprawdzamy czy użytkownik jest uwierzytelniony
 
-        var username = resultContext.HttpContext.User.GetUsername(); //pobieramy username tak jak w kontrolerze
+        var userId = resultContext.HttpContext.User.GetUserId(); //pobieramy username tak jak w kontrolerze
 
         var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>(); //pobieramy serwis
-        var user = await repo.GetUserByUsernameAsync(username); // pobieramy użytkownika
+        var user = await repo.GetUserByIdAsync(userId); // pobieramy użytkownika
         if (user == null) return;
         //teraz możemy zaktuwalizować dane w bazie na temat ostatniej aktywności użytkownika
         user.LastActive = DateTime.UtcNow;
