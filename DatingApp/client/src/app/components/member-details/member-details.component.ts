@@ -1,11 +1,13 @@
 import { Component, inject, input } from '@angular/core';
-import { MembersService } from '../../services';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { DatePipe } from '@angular/common';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
+import { TimeagoModule } from 'ngx-timeago';
+import { MembersService } from '../../services';
 
 @Component({
   selector: 'app-member-details',
-  imports: [GallerizeDirective],
+  imports: [DatePipe, GallerizeDirective, TimeagoModule],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css',
 })

@@ -1,15 +1,22 @@
 import { Component, effect, HostListener, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TimeagoModule } from 'ngx-timeago';
 import { MembersService, AccountService } from '../../services';
 import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
 import { IMember } from '../../interfaces';
 
 @Component({
   selector: 'app-member-edit',
-  imports: [NgClass, PhotoEditorComponent, ReactiveFormsModule],
+  imports: [
+    DatePipe,
+    NgClass,
+    PhotoEditorComponent,
+    ReactiveFormsModule,
+    TimeagoModule,
+  ],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css',
 })
