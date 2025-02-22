@@ -14,7 +14,7 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 })
 export class MemberListComponent implements OnInit {
   private readonly accountService = inject(AccountService);
-  private readonly memberService = inject(MembersService);
+  public readonly memberService = inject(MembersService);
   public userParams = new UserParams(this.accountService.currentUser());
   public paginatedResult = this.memberService.paginatedResult;
   public genderList = [

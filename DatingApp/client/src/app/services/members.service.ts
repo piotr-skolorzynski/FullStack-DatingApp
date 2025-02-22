@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IMember, IPhoto } from '../interfaces';
 import { PaginatedResult, UserParams } from '../models';
 import { environment } from '../../environments/environment';
@@ -42,10 +42,13 @@ export class MembersService {
   }
 
   public getMember(username: string): Observable<IMember> {
-    // const member = this.members().find(member => member.username === username);
-    // if (member) {
-    //   return of(member);
-    // }
+    const member: IMember = [...this.memberCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.body), [])
+      .find((m: IMember) => m.username === username);
+
+    if (member) {
+      return of(member);
+    }
 
     return this.http.get<IMember>(`${this.baseUrl}users/${username}`);
   }
