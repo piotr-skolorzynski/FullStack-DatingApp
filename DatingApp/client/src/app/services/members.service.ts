@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IMember, IPhoto } from '../interfaces';
 import { PaginatedResult, UserParams } from '../models';
@@ -12,10 +12,15 @@ export class MembersService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  // public members = signal<IMember[]>([]);
   public paginatedResult = signal<PaginatedResult<IMember[]> | null>(null);
+  public memberCache = new Map();
 
   public getMembers(userParams: UserParams): void {
+    const response = this.memberCache.get(Object.values(userParams).join('-'));
+    if (response) {
+      return this.setPaginatedResponse(response);
+    }
+
     let params = this.setPaginationHeaders(
       userParams.pageNumber,
       userParams.pageSize
@@ -30,10 +35,8 @@ export class MembersService {
       .get<IMember[]>(`${this.baseUrl}users`, { observe: 'response', params })
       .subscribe({
         next: response => {
-          this.paginatedResult.set({
-            items: response.body as IMember[],
-            pagination: JSON.parse(response.headers.get('Pagination')!),
-          });
+          this.setPaginatedResponse(response);
+          this.memberCache.set(Object.values(userParams).join('-'), response);
         },
       });
   }
@@ -104,5 +107,12 @@ export class MembersService {
     }
 
     return params;
+  }
+
+  private setPaginatedResponse(response: HttpResponse<IMember[]>): void {
+    this.paginatedResult.set({
+      items: response.body as IMember[],
+      pagination: JSON.parse(response.headers.get('Pagination')!),
+    });
   }
 }
