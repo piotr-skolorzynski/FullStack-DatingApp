@@ -14,7 +14,8 @@
           type="number"
           class="form-control ms-1 width-70"
           name="minAge"
-          [(ngModel)]="userParams.minAge" />
+          [value]="memberService.userParams().minAge"
+          (change)="changeUserParam($event, 'minAge')" />
       </div>
 
       <div class="d-flex gap-3">
@@ -23,7 +24,8 @@
           type="number"
           class="form-control ms-1 width-70"
           name="maxAge"
-          [(ngModel)]="userParams.maxAge" />
+          [value]="memberService.userParams().maxAge"
+          (change)="changeUserParam($event, 'maxAge')" />
       </div>
 
       <div class="d-flex gap-3">
@@ -31,7 +33,7 @@
         <select
           name="gender"
           class="form-select ms-1 width-130"
-          [(ngModel)]="userParams.gender">
+          (change)="changeUserParam($event, 'gender')">
           @for(option of genderList; track option.value){
           <option [value]="option.value">{{ option.display }}</option>
           }
@@ -56,8 +58,7 @@
           id="btn-radio-last-active"
           autocomplete="off"
           checked
-          [(ngModel)]="userParams.orderBy"
-          (change)="loadMembers()" />
+          (change)="loadMembersWithOrder($event)" />
         <label class="btn btn-outline-primary" for="btn-radio-last-active">
           Last Active
         </label>
@@ -69,8 +70,7 @@
           value="created"
           id="btn-radio-created"
           autocomplete="off"
-          [(ngModel)]="userParams.orderBy"
-          (change)="loadMembers()" />
+          (change)="loadMembersWithOrder($event)" />
         <label class="btn btn-outline-primary" for="btn-radio-created">
           Created
         </label>

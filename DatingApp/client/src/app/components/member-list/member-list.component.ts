@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
-import { AccountService, MembersService } from '../../services';
-import { UserParams } from '../../models';
+import { MembersService } from '../../services';
 import { Gender } from '../../enums';
 import { MemberCardComponent } from '../member-card/member-card.component';
 
@@ -13,9 +12,7 @@ import { MemberCardComponent } from '../member-card/member-card.component';
   styleUrl: './member-list.component.css',
 })
 export class MemberListComponent implements OnInit {
-  private readonly accountService = inject(AccountService);
   public readonly memberService = inject(MembersService);
-  public userParams = new UserParams(this.accountService.currentUser());
   public paginatedResult = this.memberService.paginatedResult;
   public genderList = [
     { value: Gender.Male, display: 'Males' },
@@ -29,19 +26,37 @@ export class MemberListComponent implements OnInit {
   }
 
   public pageChanged(event: PageChangedEvent): void {
-    if (this.userParams.pageNumber !== event.page) {
-      this.userParams.pageNumber = event.page;
+    if (this.memberService.userParams().pageNumber !== event.page) {
+      this.memberService.userParams.update(userParams => ({
+        ...userParams,
+        pageNumber: event.page,
+      }));
       this.loadMembers();
     }
   }
 
+  public changeUserParam(event: any, paramName: string): void {
+    this.memberService.userParams.update(params => ({
+      ...params,
+      [paramName]: event.target.value,
+    }));
+  }
+
+  public loadMembersWithOrder(event: any): void {
+    this.memberService.userParams.update(params => ({
+      ...params,
+      orderBy: event.target.value,
+    }));
+
+    this.loadMembers();
+  }
+
   public resetFilters(): void {
-    this.userParams = new UserParams(this.accountService.currentUser());
+    this.memberService.resetUserParams();
     this.loadMembers();
   }
 
   public loadMembers(): void {
-    console.log(this.userParams);
-    this.memberService.getMembers(this.userParams);
+    this.memberService.getMembers();
   }
 }
