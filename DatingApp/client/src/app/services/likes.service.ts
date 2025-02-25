@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IMember } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,10 @@ export class LikesService {
     return this.http.post<void>(`${this.baseUrl}likes/${targetId}`, {});
   }
 
-  public getLikes(predicate: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}likes?predicate=${predicate}`);
+  public getLikes(predicate: string): Observable<IMember[]> {
+    return this.http.get<IMember[]>(
+      `${this.baseUrl}likes?predicate=${predicate}`
+    );
   }
 
   public getLikesIds() {

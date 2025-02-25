@@ -1,1 +1,57 @@
-<p>lists works!</p>
+<div class="text-center mt-3">
+  <h2>{{ getTitle() }}</h2>
+</div>
+
+<div class="conatiner mt-3">
+  <div class="btn-group">
+    <input
+      type="radio"
+      class="btn-check"
+      name="predicate"
+      value="liked"
+      id="btn-radio-liked"
+      autocomplete="off" />
+    <label
+      class="btn btn-primary"
+      for="btn-radio-liked"
+      (click)="setPredicate('liked')">
+      Members I like
+    </label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="predicate"
+      value="likedBy"
+      id="btn-radio-likedBy"
+      autocomplete="off" />
+    <label
+      class="btn btn-primary"
+      for="btn-radio-likedBy"
+      (click)="setPredicate('likedBy')">
+      Members who like me
+    </label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="predicate"
+      value="mutual"
+      id="btn-radio-mutual"
+      autocomplete="off" />
+    <label
+      class="btn btn-primary"
+      for="btn-radio-mutual"
+      (click)="setPredicate('mutual')">
+      Mutual
+    </label>
+  </div>
+
+  <div class="row mt-3">
+    @for(member of members.value(); track member.id) {
+    <div class="col-2">
+      <app-member-card [member]="member" />
+    </div>
+    }
+  </div>
+</div>
