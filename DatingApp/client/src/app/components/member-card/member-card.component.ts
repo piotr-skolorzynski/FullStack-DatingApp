@@ -15,4 +15,18 @@ export class MemberCardComponent {
     this.likeService.likesIds().includes(this.member().id)
   );
   public member = input.required<IMember>();
+
+  public toggleLike(): void {
+    this.likeService.toggleLike(this.member().id).subscribe({
+      next: () => {
+        if (this.hasLiked()) {
+          this.likeService.likesIds.update(ids =>
+            ids.filter(x => x !== this.member().id)
+          );
+        } else {
+          this.likeService.likesIds.update(ids => [...ids, this.member().id]);
+        }
+      },
+    });
+  }
 }
