@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { ILoginCredentials, IUser } from '../interfaces';
 import { environment } from '../../environments/environment';
+import { LikesService } from './likes.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { environment } from '../../environments/environment';
 export class AccountService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
+  public readonly likeService = inject(LikesService);
   public currentUser = signal<IUser | null>(null);
 
   public register(credentials: ILoginCredentials): Observable<IUser> {
@@ -43,6 +45,7 @@ export class AccountService {
   public setCurrentUser(user: IUser) {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUser.set(user);
+    this.likeService.getLikesIds();
   }
 
   public logout() {
