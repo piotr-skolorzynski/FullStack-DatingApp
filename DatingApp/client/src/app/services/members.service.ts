@@ -1,10 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { IMember, IPhoto } from '../interfaces';
 import { PaginatedResult, UserParams } from '../models';
 import { environment } from '../../environments/environment';
 import { AccountService } from './account.service';
+import {
+  setPaginatedResponse,
+  setPaginationHeaders,
+} from './pagination-helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +32,10 @@ export class MembersService {
       Object.values(this.userParams()).join('-')
     );
     if (response) {
-      return this.setPaginatedResponse(response);
+      return setPaginatedResponse(response, this.paginatedResult);
     }
 
-    let params = this.setPaginationHeaders(
+    let params = setPaginationHeaders(
       this.userParams().pageNumber,
       this.userParams().pageSize
     );
@@ -45,7 +49,7 @@ export class MembersService {
       .get<IMember[]>(`${this.baseUrl}users`, { observe: 'response', params })
       .subscribe({
         next: response => {
-          this.setPaginatedResponse(response);
+          setPaginatedResponse(response, this.paginatedResult);
           this.memberCache.set(
             Object.values(this.userParams()).join('-'),
             response
@@ -109,26 +113,5 @@ export class MembersService {
     //     );
     //   })
     // );
-  }
-
-  private setPaginationHeaders(
-    pageNumber: number,
-    pageSize: number
-  ): HttpParams {
-    let params = new HttpParams();
-
-    if (pageNumber && pageSize) {
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
-    }
-
-    return params;
-  }
-
-  private setPaginatedResponse(response: HttpResponse<IMember[]>): void {
-    this.paginatedResult.set({
-      items: response.body as IMember[],
-      pagination: JSON.parse(response.headers.get('Pagination')!),
-    });
   }
 }

@@ -1,26 +1,28 @@
-import { Component, inject, signal } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 import { LikesService } from '../../services/likes.service';
 import { MemberCardComponent } from '../member-card/member-card.component';
-
-type Predicate = 'liked' | 'likedBy' | 'mutual';
+import { Predicate } from '../../models';
 
 @Component({
   selector: 'app-lists',
-  imports: [MemberCardComponent],
+  imports: [MemberCardComponent, PaginationModule, FormsModule],
   templateUrl: './lists.component.html',
   styleUrl: './lists.component.css',
 })
-export class ListsComponent {
-  private likeService = inject(LikesService);
-  public members = rxResource({
-    request: () => this.predicate(),
-    loader: () => this.likeService.getLikes(this.predicate()),
-  });
-  public predicate = signal<Predicate>('liked');
+export class ListsComponent implements OnInit {
+  public likesService = inject(LikesService);
+  public likesParams = this.likesService.likesParams;
+  public likesMemebers = this.likesService.likesMembers;
+  public likesPagination = this.likesService.likesPagination;
+
+  public ngOnInit(): void {
+    this.setPredicate('liked');
+  }
 
   public getTitle(): string {
-    switch (this.predicate()) {
+    switch (this.likesParams().predicate) {
       case 'liked':
         return 'Members you like';
       case 'likedBy':
@@ -31,6 +33,15 @@ export class ListsComponent {
   }
 
   public setPredicate(predicate: Predicate): void {
-    this.predicate.set(predicate);
+    this.likesParams.update(likesParams => ({ ...likesParams, predicate }));
+  }
+
+  public onPageChange(event: PageChangedEvent): void {
+    if (this.likesParams().pageNumber !== event.page) {
+      this.likesParams.update(likesParams => ({
+        ...likesParams,
+        pageNumber: event.page,
+      }));
+    }
   }
 }

@@ -47,11 +47,33 @@
     </label>
   </div>
 
+  @if(likesMemebers()?.length) {
   <div class="row mt-3">
-    @for(member of members.value(); track member.id) {
+    @for(member of likesMemebers(); track member.id) {
     <div class="col-2">
       <app-member-card [member]="member" />
     </div>
     }
   </div>
+  } @else {
+  <div class="row mt-3 text-center fs-3">
+    <div class="col-12">No results found</div>
+  </div>
+  }
 </div>
+
+@if(likesMemebers()?.length && likesPagination()) {
+<div class="d-flex justify-content-center">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="likesPagination()!.totalItems"
+    [itemsPerPage]="likesPagination()!.itemsPerPage"
+    (pageChanged)="onPageChange($event)"
+    [ngModel]="likesService.likesPagination()!.currentPage"
+    [maxSize]="10"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;" />
+</div>
+}
