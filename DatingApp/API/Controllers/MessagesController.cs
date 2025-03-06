@@ -39,7 +39,8 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
+    // zastanowić sie czy słusznie zmieniłem IEnumerable na PagedList
+    public async Task<ActionResult<PagedList<MessageDto>>> GetMessagesForUser([FromQuery] MessageParams messageParams)
     {
         messageParams.Username = User.GetUsername();
 
@@ -48,5 +49,13 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
         Response.AddPaginationHeader(messages);
 
         return messages;
+    }
+
+    [HttpGet("thread/{username}")]
+    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+    {
+        var currentUsername = User.GetUsername();
+
+        return Ok(await messageRespository.GetMessageThread(currentUsername, username));
     }
 }
