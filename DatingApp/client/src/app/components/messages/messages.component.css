@@ -1,0 +1,15 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.width-p20 {
+  width: 20%;
+}
+
+.width-p40 {
+  width: 40%;
+}
+
+.rounded-circle {
+  max-height: 50px;
+}

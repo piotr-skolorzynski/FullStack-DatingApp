@@ -13,7 +13,7 @@ import { tap } from 'rxjs';
 export class MessageService {
   private readonly baseUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
-  private messagesPaginationSignal = signal<IPagination | null>(null);
+  public messagesPagination = signal<IPagination | null>(null);
 
   //do przemyślenia
   public messagesParams = signal<IMessagesParams>({
@@ -22,9 +22,6 @@ export class MessageService {
     pageSize: 5,
   });
   public messages = computed(() => this.paginatedResult.value()?.body);
-  public messagesPagination = computed(() =>
-    this.messagesPaginationSignal.asReadonly()
-  );
 
   private paginatedResult = rxResource({
     request: this.messagesParams,
@@ -39,7 +36,7 @@ export class MessageService {
         })
         .pipe(
           tap(response =>
-            this.messagesPaginationSignal.set(
+            this.messagesPagination.set(
               JSON.parse(response.headers.get('Pagination')!)
             )
           )
