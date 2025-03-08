@@ -1,5 +1,59 @@
-@for(message of threadMessages(); track message.id) {
-<p>{{ message.content }}</p>
-} @empty {
-<h3>No messages</h3>
-}
+<div class="card">
+  <div class="card-body">
+    @if(threadMessages.length) {
+    <ul class="chat">
+      @for(message of threadMessages(); track message.id) {
+      <li>
+        {{ message.content }}
+        <div>
+          <span class="chat-img float-end">
+            <img
+              class="rounded-circle"
+              src="{{ message.senderPhotoUrl || './assets/user.png' }}"
+              alt="Image of message sender" />
+          </span>
+
+          <div class="chat-body">
+            <div class="header">
+              <small class="text-muted">
+                <span class="fa fa-clock-o me-2">
+                  {{ message.messageSent | timeago }}
+                </span>
+                @if(!message.dateRead && message.senderUsername !== username())
+                {
+                <span class="text-danger">(unread)</span>
+                } @if(message.dateRead && message.senderUsername !== username())
+                {
+                <span class="text-success">
+                  (read {{ message.dateRead | timeago }})
+                </span>
+                }
+              </small>
+            </div>
+
+            <p>{{ message.content }}</p>
+          </div>
+        </div>
+      </li>
+      }
+    </ul>
+    } @else {
+    <h3>No messages yet</h3>
+    }
+  </div>
+
+  <div class="card-footer">
+    <form>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control input-sm"
+          placeholder="Send a private message" />
+
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
