@@ -88,7 +88,8 @@
           type="button"
           role="tab"
           aria-controls="messages-tab-pane"
-          aria-selected="false">
+          aria-selected="false"
+          (click)="activateMessageTab()">
           Messages
         </button>
       </li>
@@ -131,6 +132,7 @@
         </div>
       </div>
 
+      @if(isMessageTabActive) {
       <div
         class="tab-pane fade"
         id="messages-tab-pane"
@@ -139,6 +141,8 @@
         tabindex="0">
         <app-member-messages [username]="username()" />
       </div>
+
+      }
     </div>
   </div>
 </div>
