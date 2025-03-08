@@ -1,0 +1,5 @@
+@for(message of threadMessages(); track message.id) {
+<p>{{ message.content }}</p>
+} @empty {
+<h3>No messages</h3>
+}

@@ -9,7 +9,7 @@
       <li class="list-inline-item">
         <button
           class="btn btn-primary"
-          routerLink="/members/{{ member().username }}">
+          (click)="redirectToUserDetail(member().username)">
           <i class="fa fa-user"></i>
         </button>
       </li>

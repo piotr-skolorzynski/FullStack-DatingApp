@@ -1,16 +1,19 @@
 import { Component, computed, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { IMember } from '../../interfaces';
-import { RouterLink } from '@angular/router';
 import { LikesService } from '../../services/likes.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-member-card',
-  imports: [RouterLink],
   templateUrl: './member-card.component.html',
   styleUrl: './member-card.component.css',
 })
 export class MemberCardComponent {
   private readonly likeService = inject(LikesService);
+  private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
+  private usernameForThread = this.messageService.usernameForThread;
   public hasLiked = computed(() =>
     this.likeService.likesIds().includes(this.member().id)
   );
@@ -28,5 +31,10 @@ export class MemberCardComponent {
         }
       },
     });
+  }
+
+  public redirectToUserDetail(name: string) {
+    this.usernameForThread.set(name);
+    this.router.navigateByUrl(`/members/${this.member().username}`);
   }
 }

@@ -4,10 +4,16 @@ import { DatePipe } from '@angular/common';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
 import { TimeagoModule } from 'ngx-timeago';
 import { MembersService } from '../../services';
+import { MemberMessagesComponent } from '../member-messages/member-messages.component';
 
 @Component({
   selector: 'app-member-details',
-  imports: [DatePipe, GallerizeDirective, TimeagoModule],
+  imports: [
+    DatePipe,
+    GallerizeDirective,
+    TimeagoModule,
+    MemberMessagesComponent,
+  ],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css',
 })
