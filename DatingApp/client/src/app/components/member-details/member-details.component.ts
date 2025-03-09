@@ -1,13 +1,19 @@
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  input,
+  OnDestroy,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
 import { TimeagoModule } from 'ngx-timeago';
 import * as bootstrap from 'bootstrap';
 import { MembersService } from '../../services';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-member-details',
@@ -20,7 +26,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css',
 })
-export class MemberDetailsComponent implements OnInit, OnDestroy {
+export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
   public username = input<string>('');
 
   private readonly memberService = inject(MembersService);
@@ -33,13 +39,12 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
   });
   public isMessageTabActive = false;
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.subscription.add(
       this.route.queryParams.subscribe({
         next: params => {
-          console.log(params['tab']);
           if (params['tab'] === 'Messages') {
-            this.switchToMessageTab();
+            setTimeout(() => this.switchToMessageTab(), 100);
           }
         },
       })
@@ -62,6 +67,7 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     const triggerEl = document.querySelector(
       '#memberTab button[data-bs-target="#messages-tab-pane"]'
     );
+
     if (triggerEl) {
       bootstrap.Tab.getOrCreateInstance(triggerEl).show();
     }
