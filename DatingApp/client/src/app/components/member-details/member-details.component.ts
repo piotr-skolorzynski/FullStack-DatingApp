@@ -3,6 +3,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
 import { TimeagoModule } from 'ngx-timeago';
+import * as bootstrap from 'bootstrap';
 import { MembersService } from '../../services';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
 
@@ -30,5 +31,15 @@ export class MemberDetailsComponent {
 
   public activateMessageTab(): void {
     this.isMessageTabActive = true;
+  }
+
+  public switchToMessageTab(): void {
+    this.activateMessageTab();
+    const triggerEl = document.querySelector(
+      '#memberTab button[data-bs-target="#messages-tab-pane"]'
+    );
+    if (triggerEl) {
+      bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+    }
   }
 }
