@@ -16,10 +16,7 @@ export class MemberMessagesComponent implements OnInit {
 
   public threadMessages = this.messageService.threadMessages;
 
-  eff = effect(() => console.log(this.threadMessages()));
-
   public ngOnInit(): void {
-    console.log('oninit');
     this.usernameForThread.set(this.username());
   }
 }

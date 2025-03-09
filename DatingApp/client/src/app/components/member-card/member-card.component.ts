@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IMember } from '../../interfaces';
 import { LikesService } from '../../services/likes.service';
 
@@ -7,6 +7,7 @@ import { LikesService } from '../../services/likes.service';
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
   styleUrl: './member-card.component.css',
+  imports: [RouterLink],
 })
 export class MemberCardComponent {
   private readonly likeService = inject(LikesService);
