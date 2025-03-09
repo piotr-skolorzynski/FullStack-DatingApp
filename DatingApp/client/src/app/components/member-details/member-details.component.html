@@ -132,17 +132,16 @@
         </div>
       </div>
 
-      @if(isMessageTabActive) {
       <div
         class="tab-pane fade"
         id="messages-tab-pane"
         role="tabpanel"
         aria-labelledby="messages-tab"
         tabindex="0">
+        @if(isMessageTabActive) {
         <app-member-messages [username]="username()" />
+        }
       </div>
-
-      }
     </div>
   </div>
 </div>
