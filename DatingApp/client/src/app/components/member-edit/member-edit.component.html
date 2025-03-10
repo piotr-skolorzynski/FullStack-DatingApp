@@ -1,150 +1,150 @@
-@if(member.value(); as member) {
-<div class="row">
-  <div class="col-4">
-    <h1>Your profile</h1>
-  </div>
-
-  <div class="col-8 hidden" [ngClass]="{ visible: memberForm.dirty }">
-    <div class="alert alert-info">
-      <p class="mb-0">
-        <strong>Information: </strong>
-        You have made changes. Any unsaved changes will be lost
-      </p>
+@if (member.value(); as member) {
+  <div class="row">
+    <div class="col-4">
+      <h1>Your profile</h1>
     </div>
-  </div>
 
-  <div class="col-4">
-    <div class="card p-3">
-      <img
-        src="{{ member.photoUrl || 'assets/user.png' }}"
-        alt="{{ member.knownAs }}"
-        class="card-img mx-auto p-0" />
-
-      <div class="card-body">
-        <div>
-          <strong>Location:</strong>
-          <p>{{ member.city }}, {{ member.country }}</p>
-        </div>
-        <div>
-          <strong>Age:</strong>
-          <p>{{ member.age }}</p>
-        </div>
-        <div>
-          <strong>Last Active:</strong>
-          <p>{{ member.lastActive | timeago }}</p>
-        </div>
-        <div>
-          <strong>Member since:</strong>
-          <p>{{ member.created | date : 'dd MMM yyy' }}</p>
-        </div>
-      </div>
-
-      <div class="card-footer">
-        <button
-          type="submit"
-          form="editMemberForm"
-          [disabled]="!memberForm.dirty"
-          class="btn btn-success col-12">
-          Save changes
-        </button>
+    <div class="col-8 hidden" [ngClass]="{ visible: memberForm.dirty }">
+      <div class="alert alert-info">
+        <p class="mb-0">
+          <strong>Information: </strong>
+          You have made changes. Any unsaved changes will be lost
+        </p>
       </div>
     </div>
-  </div>
 
-  <div class="col-8">
-    <ul class="nav nav-tabs fw-bold" id="memberTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          id="about-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#about-tab-pane"
-          type="button"
-          role="tab"
-          aria-controls="about-tab-pane"
-          aria-selected="true">
-          About {{ member.knownAs }}
-        </button>
-      </li>
+    <div class="col-4">
+      <div class="card p-3">
+        <img
+          src="{{ member.photoUrl || 'assets/user.png' }}"
+          alt="{{ member.knownAs }}"
+          class="card-img mx-auto p-0" />
 
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="edit-photos-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#edit-photos-tab-pane"
-          type="button"
-          role="tab"
-          aria-controls="edit-photos-tab-pane"
-          aria-selected="false">
-          Edit photos
-        </button>
-      </li>
-    </ul>
-
-    <div class="tab-content" id="memberTabContent">
-      <div
-        class="tab-pane fade show active"
-        id="about-tab-pane"
-        role="tabpanel"
-        aria-labelledby="about-tab"
-        tabindex="0">
-        <form
-          id="editMemberForm"
-          [formGroup]="memberForm"
-          (ngSubmit)="updateMember()">
-          <h4 class="mt-3">Description</h4>
-          <textarea
-            name="introduction"
-            rows="6"
-            class="form-control"
-            formControlName="introduction"></textarea>
-
-          <h4 class="mt-3">Looking for</h4>
-          <textarea
-            name="lookingFor"
-            rows="6"
-            class="form-control"
-            formControlName="lookingFor"></textarea>
-
-          <h4 class="mt-3">Interests</h4>
-          <textarea
-            name="interests"
-            rows="6"
-            class="form-control"
-            formControlName="interests"></textarea>
-
-          <h4 class="mt-3">Location details</h4>
-
-          <div class="d-flex align-items-center gap-3 mt-3">
-            <label for="city" class="form-label">City:</label>
-            <input
-              id="city"
-              type="text"
-              class="form-control"
-              formControlName="city" />
-
-            <label for="country" class="form-label">Country:</label>
-            <input
-              id="country"
-              type="text"
-              class="form-control"
-              formControlName="country" />
+        <div class="card-body">
+          <div>
+            <strong>Location:</strong>
+            <p>{{ member.city }}, {{ member.country }}</p>
           </div>
-        </form>
-      </div>
+          <div>
+            <strong>Age:</strong>
+            <p>{{ member.age }}</p>
+          </div>
+          <div>
+            <strong>Last Active:</strong>
+            <p>{{ member.lastActive | timeago }}</p>
+          </div>
+          <div>
+            <strong>Member since:</strong>
+            <p>{{ member.created | date: 'dd MMM yyy' }}</p>
+          </div>
+        </div>
 
-      <div
-        class="tab-pane fade"
-        id="edit-photos-tab-pane"
-        role="tabpanel"
-        aria-labelledby="edit-photos-tab"
-        tabindex="0">
-        <app-photo-editor
-          [member]="member"
-          (memberChange)="onMemberChange($event)" />
+        <div class="card-footer">
+          <button
+            type="submit"
+            form="editMemberForm"
+            [disabled]="!memberForm.dirty"
+            class="btn btn-success col-12">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8">
+      <ul class="nav nav-tabs fw-bold" id="memberTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="about-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#about-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="about-tab-pane"
+            aria-selected="true">
+            About {{ member.knownAs }}
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="edit-photos-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#edit-photos-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="edit-photos-tab-pane"
+            aria-selected="false">
+            Edit photos
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="memberTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="about-tab-pane"
+          role="tabpanel"
+          aria-labelledby="about-tab"
+          tabindex="0">
+          <form
+            id="editMemberForm"
+            [formGroup]="memberForm"
+            (ngSubmit)="updateMember()">
+            <h4 class="mt-3">Description</h4>
+            <textarea
+              name="introduction"
+              rows="6"
+              class="form-control"
+              formControlName="introduction"></textarea>
+
+            <h4 class="mt-3">Looking for</h4>
+            <textarea
+              name="lookingFor"
+              rows="6"
+              class="form-control"
+              formControlName="lookingFor"></textarea>
+
+            <h4 class="mt-3">Interests</h4>
+            <textarea
+              name="interests"
+              rows="6"
+              class="form-control"
+              formControlName="interests"></textarea>
+
+            <h4 class="mt-3">Location details</h4>
+
+            <div class="d-flex align-items-center gap-3 mt-3">
+              <label for="city" class="form-label">City:</label>
+              <input
+                id="city"
+                type="text"
+                class="form-control"
+                formControlName="city" />
+
+              <label for="country" class="form-label">Country:</label>
+              <input
+                id="country"
+                type="text"
+                class="form-control"
+                formControlName="country" />
+            </div>
+          </form>
+        </div>
+
+        <div
+          class="tab-pane fade"
+          id="edit-photos-tab-pane"
+          role="tabpanel"
+          aria-labelledby="edit-photos-tab"
+          tabindex="0">
+          <app-photo-editor
+            [member]="member"
+            (memberChange)="onMemberChange($event)" />
+        </div>
       </div>
     </div>
   </div>
-</div>
 }

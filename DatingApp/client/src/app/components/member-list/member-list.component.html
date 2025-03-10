@@ -34,8 +34,8 @@
           name="gender"
           class="form-select ms-1 width-130"
           (change)="changeUserParam($event, 'gender')">
-          @for(option of genderList; track option.value){
-          <option [value]="option.value">{{ option.display }}</option>
+          @for (option of genderList; track option.value) {
+            <option [value]="option.value">{{ option.display }}</option>
           }
         </select>
       </div>
@@ -78,25 +78,25 @@
     </form>
   </div>
 
-  @for(member of paginatedResult()?.items; track member.id) {
-  <div class="col-2">
-    <app-member-card [member]="member" />
-  </div>
+  @for (member of paginatedResult()?.items; track member.id) {
+    <div class="col-2">
+      <app-member-card [member]="member" />
+    </div>
   }
 </div>
 
-@if(paginatedResult()?.pagination) {
-<div class="d-flex justify-content-center">
-  <pagination
-    [boundaryLinks]="true"
-    [totalItems]="(paginatedResult()?.pagination)!.totalItems"
-    [itemsPerPage]="(paginatedResult()?.pagination)!.itemsPerPage"
-    (pageChanged)="pageChanged($event)"
-    [(ngModel)]="(memberService.paginatedResult()?.pagination)!.currentPage"
-    [maxSize]="10"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;" />
-</div>
+@if (paginatedResult()?.pagination) {
+  <div class="d-flex justify-content-center">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="(paginatedResult()?.pagination)!.totalItems"
+      [itemsPerPage]="(paginatedResult()?.pagination)!.itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+      [(ngModel)]="(memberService.paginatedResult()?.pagination)!.currentPage"
+      [maxSize]="10"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;" />
+  </div>
 }

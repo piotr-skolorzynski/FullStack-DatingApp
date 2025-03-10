@@ -58,57 +58,58 @@
   </thead>
 
   <tbody class="align-middle">
-    @for(message of messages(); track message.id) {
-    <tr [routerLink]="getRoute(message)" [queryParams]="{ tab: 'Messages' }">
-      <td>{{ message.content }}</td>
-      <td>
-        <div>
-          <img
-            class="rounded-circle me-2"
-            [src]="
-              messagesParams().container === 'Outbox'
-                ? message.recipientPhotoUrl || './assets/user.png'
-                : message.senderPhotoUrl || './assets/user.png'
-            "
-            alt="image of user" />
-
+    @for (message of messages(); track message.id) {
+      <tr [routerLink]="getRoute(message)" [queryParams]="{ tab: 'Messages' }">
+        <td>{{ message.content }}</td>
+        <td>
           <div>
-            <strong>
-              {{
+            <img
+              class="rounded-circle me-2"
+              [src]="
                 messagesParams().container === 'Outbox'
-                  ? message.recipientUsername
-                  : message.senderUsername
-              }}
-            </strong>
-          </div>
-        </div>
-      </td>
-      <td>
-        {{ message.messageSent | timeago }}
-      </td>
-      <td><button class="btn btn-danger">Delete</button></td>
-    </tr>
+                  ? message.recipientPhotoUrl || './assets/user.png'
+                  : message.senderPhotoUrl || './assets/user.png'
+              "
+              alt="image of user" />
 
-    @if(messages()?.length && messagesPagination()) {
-    <tr>
-      <td colspan="5" class="d-flex justify-content-center">
-        <pagination
-          [boundaryLinks]="true"
-          [totalItems]="messagesPagination()!.totalItems"
-          [itemsPerPage]="messagesPagination()!.itemsPerPage"
-          (pageChanged)="onPageChange($event)"
-          [ngModel]="messageService.messagesPagination()!.currentPage"
-          [maxSize]="10"
-          previousText="&lsaquo;"
-          nextText="&rsaquo;"
-          firstText="&laquo;"
-          lastText="&raquo;" />
+            <div>
+              <strong>
+                {{
+                  messagesParams().container === 'Outbox'
+                    ? message.recipientUsername
+                    : message.senderUsername
+                }}
+              </strong>
+            </div>
+          </div>
+        </td>
+        <td>
+          {{ message.messageSent | timeago }}
+        </td>
+        <td><button class="btn btn-danger">Delete</button></td>
+      </tr>
+
+      @if (messages()?.length && messagesPagination()) {
+        <tr>
+          <td colspan="5" class="d-flex justify-content-center">
+            <pagination
+              [boundaryLinks]="true"
+              [totalItems]="messagesPagination()!.totalItems"
+              [itemsPerPage]="messagesPagination()!.itemsPerPage"
+              (pageChanged)="onPageChange($event)"
+              [ngModel]="messageService.messagesPagination()!.currentPage"
+              [maxSize]="10"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;"
+              lastText="&raquo;" />
+          </td>
+        </tr>
+      }
+    } @empty {
+      <td colspan="5" class="text-center">
+        <h3 class="mt-5">No messages</h3>
       </td>
-    </tr>
-    } } @empty {
-    <td colspan="5" class="text-center">
-      <h3 class="mt-5">No messages</h3>
-    </td>
     }
   </tbody>
 </table>
