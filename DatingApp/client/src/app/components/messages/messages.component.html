@@ -88,24 +88,6 @@
         </td>
         <td><button class="btn btn-danger">Delete</button></td>
       </tr>
-
-      @if (messages()?.length && messagesPagination()) {
-        <tr>
-          <td colspan="5" class="d-flex justify-content-center">
-            <pagination
-              [boundaryLinks]="true"
-              [totalItems]="messagesPagination()!.totalItems"
-              [itemsPerPage]="messagesPagination()!.itemsPerPage"
-              (pageChanged)="onPageChange($event)"
-              [ngModel]="messageService.messagesPagination()!.currentPage"
-              [maxSize]="10"
-              previousText="&lsaquo;"
-              nextText="&rsaquo;"
-              firstText="&laquo;"
-              lastText="&raquo;" />
-          </td>
-        </tr>
-      }
     } @empty {
       <td colspan="5" class="text-center">
         <h3 class="mt-5">No messages</h3>
@@ -113,3 +95,19 @@
     }
   </tbody>
 </table>
+
+@if (messages()?.length && messagesPagination()) {
+  <div class="d-flex justify-content-center mt-4">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="messagesPagination()!.totalItems"
+      [itemsPerPage]="messagesPagination()!.itemsPerPage"
+      (pageChanged)="onPageChange($event)"
+      [ngModel]="messageService.messagesPagination()!.currentPage"
+      [maxSize]="10"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;" />
+  </div>
+}
