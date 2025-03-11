@@ -42,4 +42,8 @@ export class MessagesComponent implements OnInit {
       }));
     }
   }
+
+  public deleteMessage(id: number): void {
+    this.messageService.deleteMessage(id);
+  }
 }

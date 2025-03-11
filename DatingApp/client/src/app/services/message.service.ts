@@ -41,6 +41,13 @@ export class MessageService {
       .subscribe();
   }
 
+  public deleteMessage(id: number): void {
+    this.http
+      .delete(`${this.baseUrl}messages/${id}`)
+      .pipe(tap(() => this.paginatedResult.reload()))
+      .subscribe();
+  }
+
   private paginatedResult = rxResource({
     request: this.messagesParams,
     loader: ({ request }) => {
