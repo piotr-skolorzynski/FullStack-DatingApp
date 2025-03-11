@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IMessagesParams } from '../interfaces/messages-params.interface';
 import { setPaginationHeaders } from './pagination-helpers';
@@ -23,7 +23,23 @@ export class MessageService {
   });
 
   public messages = computed(() => this.paginatedResult.value()?.body);
+
   public threadMessages = computed(() => this.messageThreadResult.value());
+
+  public sendMessage(username: string, content: string): void {
+    console.log({
+      recipientUsername: username,
+      content,
+    });
+
+    this.http
+      .post<IMessage>(`${this.baseUrl}messages`, {
+        recipientUsername: username,
+        content,
+      })
+      .pipe(tap(() => this.paginatedResult.reload()))
+      .subscribe();
+  }
 
   private paginatedResult = rxResource({
     request: this.messagesParams,
