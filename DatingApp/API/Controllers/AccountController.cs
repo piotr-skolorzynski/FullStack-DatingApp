@@ -43,16 +43,7 @@ namespace API.Controllers
             //added Include to force entity framework to load also photos
             var user = await context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
-            if (user == null) return Unauthorized("Invalid username"); //powinno być "... or password" na razie tak łatwiej testować co nie działa
-
-            // using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            // var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            // for (int i = 0; i < computedHash.Length; i++)
-            // {
-            //     if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password"); //zmienić później treść
-            // }
+            if (user == null || user.UserName == null) return Unauthorized("Invalid username");
 
             return new UserDto
             {
@@ -66,7 +57,9 @@ namespace API.Controllers
 
         private async Task<bool> UserExists(string username)
         {
-            return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
+            // return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
+            //usera dostarczy nam EF, znormalizowany username jest uppercase
+            return await context.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper());
         }
     }
 }
