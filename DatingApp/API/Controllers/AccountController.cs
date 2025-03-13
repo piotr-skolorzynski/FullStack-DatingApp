@@ -1,32 +1,28 @@
-using System.Security.Cryptography;
-using System.Text;
-using API.Data;
 using API.DTOs;
 using API.Interfaces;
 using API.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class AccountController(DataContext context, ITokenService tokenService, IMapper mapper) : BaseApiController
+    public class AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper) : BaseApiController
     {
         [HttpPost("register")] //api/register
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
-            using var hmac = new HMACSHA512();
 
             var user = mapper.Map<AppUser>(registerDto);
 
             user.UserName = registerDto.Username.ToLower();
-            // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-            // user.PasswordSalt = hmac.Key;
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            var result = await userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             return new UserDto
             {
@@ -41,9 +37,13 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             //added Include to force entity framework to load also photos
-            var user = await context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+            var user = await userManager.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.NormalizedUserName == loginDto.Username.ToUpper());
 
             if (user == null || user.UserName == null) return Unauthorized("Invalid username");
+
+            var result = await userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!result) return Unauthorized();
 
             return new UserDto
             {
@@ -57,9 +57,7 @@ namespace API.Controllers
 
         private async Task<bool> UserExists(string username)
         {
-            // return await context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
-            //usera dostarczy nam EF, znormalizowany username jest uppercase
-            return await context.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper());
+            return await userManager.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper());
         }
     }
 }
