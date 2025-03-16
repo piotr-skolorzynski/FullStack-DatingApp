@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { ILoginCredentials, IUser } from '../interfaces';
@@ -13,6 +13,16 @@ export class AccountService {
   private readonly baseUrl = environment.apiUrl;
   public readonly likeService = inject(LikesService);
   public currentUser = signal<IUser | null>(null);
+  public roles = computed(() => {
+    const user = this.currentUser();
+
+    if (user && user.token) {
+      const role = JSON.parse(atob(user.token.split('.')[1])).role;
+      return Array.isArray(role) ? role : [role];
+    }
+
+    return null;
+  });
 
   public register(credentials: ILoginCredentials): Observable<IUser> {
     return this.http

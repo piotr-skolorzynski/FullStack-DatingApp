@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, preventUnsavedChangesGuard } from './guards';
+import { adminGuard, authGuard, preventUnsavedChangesGuard } from './guards';
 import {
   AdminPanelComponent,
   HomeComponent,
@@ -40,6 +40,7 @@ export const routes: Routes = [
       {
         path: 'admin',
         component: AdminPanelComponent,
+        canActivate: [adminGuard],
       },
     ],
   },
