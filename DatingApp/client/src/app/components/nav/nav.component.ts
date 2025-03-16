@@ -10,10 +10,16 @@ import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { LoginFormGroup } from '../../models';
 import { AccountService } from '../../services';
+import { HasRoleDirective } from '../../directives';
 
 @Component({
   selector: 'app-nav',
-  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
+  imports: [
+    HasRoleDirective,
+    ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })
