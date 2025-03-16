@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard, preventUnsavedChangesGuard } from './guards';
 import {
+  AdminPanelComponent,
   HomeComponent,
   ListsComponent,
   MemberDetailsComponent,
@@ -36,6 +37,10 @@ export const routes: Routes = [
       },
       { path: 'lists', component: ListsComponent, title: 'Lists' },
       { path: 'messages', component: MessagesComponent, title: 'Messages' },
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
+      },
     ],
   },
   {

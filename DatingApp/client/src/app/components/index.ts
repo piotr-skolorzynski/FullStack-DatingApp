@@ -1,3 +1,4 @@
+export * from './admin/admin-panel/admin-panel.component';
 export * from './errors/not-found/not-found.component';
 export * from './errors/server-error/server-error.component';
 export * from './home/home.component';
