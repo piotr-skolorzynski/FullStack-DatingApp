@@ -1,1 +1,59 @@
-<p>admin-panel works!</p>
+<h2>Admin panel</h2>
+
+<div>
+  <ul class="nav nav-tabs fw-bold" id="managementTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="user-management-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#user-management-tab-pane"
+        type="button"
+        role="tab"
+        aria-controls="user-management-tab-pane"
+        aria-selected="true"
+        *appHasRole="['Admin']">
+        User management
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="photo-management-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#photo-manegement-tab-pane"
+        type="button"
+        role="tab"
+        aria-controls="photo-manegement-tab-pane"
+        aria-selected="false"
+        *appHasRole="['Admin', 'Moderator']">
+        Photo management
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="memberTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="user-management-tab-pane"
+      role="tabpanel"
+      aria-labelledby="user-management-tab"
+      tabindex="0">
+      <div class="container">
+        <app-user-management />
+      </div>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="photo-manegement-tab-pane"
+      role="tabpanel"
+      aria-labelledby="photo-management-tab"
+      tabindex="0">
+      <div class="container">
+        <app-photo-management />
+      </div>
+    </div>
+  </div>
+</div>
