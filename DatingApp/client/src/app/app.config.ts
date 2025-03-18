@@ -10,6 +10,7 @@ import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
 import { provideToastr } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TimeagoModule } from 'ngx-timeago';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { routes } from './app.routes';
 import {
@@ -36,6 +37,10 @@ export const appConfig: ApplicationConfig = {
         exitAnimationTime: 1000,
       } as LightboxConfig,
     },
-    importProvidersFrom(NgxSpinnerModule, TimeagoModule.forRoot()),
+    importProvidersFrom(
+      NgxSpinnerModule,
+      TimeagoModule.forRoot(),
+      ModalModule.forRoot()
+    ),
   ],
 };
