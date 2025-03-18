@@ -14,4 +14,14 @@ export class AdminService {
   public getUsersWithRoles(): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.baseUrl}admin/users-with-roles`);
   }
+
+  public updateUserRoles(
+    username: string,
+    roles: string[]
+  ): Observable<string[]> {
+    return this.http.post<string[]>(
+      `${this.baseUrl}admin/edit-roles/${username}?roles=${roles}`,
+      {}
+    );
+  }
 }
