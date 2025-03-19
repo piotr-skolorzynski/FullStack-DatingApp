@@ -5,3 +5,4 @@ export {
   setPaginatedResponse,
   setPaginationHeaders,
 } from './pagination-helpers';
+export * from './presence.service';
