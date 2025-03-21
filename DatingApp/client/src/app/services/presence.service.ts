@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -15,6 +15,7 @@ export class PresenceService {
   private hubUrl = environment.hubsUrl;
   private hubConnection: HubConnection;
   private readonly toastr = inject(ToastrService);
+  public onlineUsers = signal<string[]>([]);
 
   public createHubConnection(user: IUser): void {
     //budowa połączenia
@@ -24,15 +25,22 @@ export class PresenceService {
       })
       .withAutomaticReconnect()
       .build();
+
     //uruchomienie połączenia
     this.hubConnection.start().catch(error => console.log(error));
+
     //reakcja na stworzone w presence hub zdarzenia
-    this.hubConnection.on('UserIsOnline', username => {
-      this.toastr.info(username + ' has connected');
-    });
-    this.hubConnection.on('UserIsOffline', username => {
-      this.toastr.warning(username + ' has disconnected');
-    });
+    this.hubConnection.on('UserIsOnline', username =>
+      this.toastr.info(username + ' has connected')
+    );
+
+    this.hubConnection.on('UserIsOffline', username =>
+      this.toastr.warning(username + ' has disconnected')
+    );
+
+    this.hubConnection.on('GetOnlineUsers', usernames =>
+      this.onlineUsers.set(usernames)
+    );
   }
 
   public stopHubConnection(): void {

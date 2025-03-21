@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   inject,
   input,
   OnDestroy,
@@ -11,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
 import { TimeagoModule } from 'ngx-timeago';
 import * as bootstrap from 'bootstrap';
-import { MembersService } from '../../services';
+import { MembersService, PresenceService } from '../../services';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
 import { ActivatedRoute } from '@angular/router';
 
@@ -32,7 +33,13 @@ export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
   private readonly memberService = inject(MembersService);
   private readonly route = inject(ActivatedRoute);
   private subscription = new Subscription();
+  private readonly presenceService = inject(PresenceService);
 
+  public isOnline = computed(() =>
+    this.presenceService
+      .onlineUsers()
+      .includes(this.member.value()?.username ?? '')
+  );
   public member = rxResource({
     request: () => this.username(),
     loader: () => this.memberService.getMember(this.username()),

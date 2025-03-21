@@ -1,21 +1,28 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { IMember } from '../../interfaces';
 import { LikesService } from '../../services/likes.service';
+import { PresenceService } from '../../services';
 
 @Component({
   selector: 'app-member-card',
   templateUrl: './member-card.component.html',
   styleUrl: './member-card.component.css',
-  imports: [RouterLink],
+  imports: [NgClass, RouterLink],
 })
 export class MemberCardComponent {
+  public member = input.required<IMember>();
+
   private readonly likeService = inject(LikesService);
   private readonly router = inject(Router);
+  private readonly presenceService = inject(PresenceService);
   public hasLiked = computed(() =>
     this.likeService.likesIds().includes(this.member().id)
   );
-  public member = input.required<IMember>();
+  public isOnline = computed(() =>
+    this.presenceService.onlineUsers().includes(this.member().username)
+  );
 
   public toggleLike(): void {
     this.likeService.toggleLike(this.member().id).subscribe({
