@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [Authorize]
-public class MessagesController(IMessageRepository messageRespository, IUserRepository userRepository, IMapper mapper) : BaseApiController
+public class MessagesController(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper) : BaseApiController
 {
     [HttpPost]
     public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
@@ -33,9 +33,9 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
             Content = createMessageDto.Content
         };
 
-        messageRespository.AddMessage(message);
+        messageRepository.AddMessage(message);
 
-        if (await messageRespository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
+        if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
 
         return BadRequest("Failed to save message");
     }
@@ -46,7 +46,7 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
     {
         messageParams.Username = User.GetUsername();
 
-        var messages = await messageRespository.GetMessagesForUser(messageParams);
+        var messages = await messageRepository.GetMessagesForUser(messageParams);
 
         Response.AddPaginationHeader(messages);
 
@@ -58,14 +58,14 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
     {
         var currentUsername = User.GetUsername();
 
-        return Ok(await messageRespository.GetMessageThread(currentUsername, username));
+        return Ok(await messageRepository.GetMessageThread(currentUsername, username));
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteMessage(int id)
     {
         var username = User.GetUsername();
-        var message = await messageRespository.GetMessage(id);
+        var message = await messageRepository.GetMessage(id);
 
         if (message == null) return BadRequest("Cannot delete this message");
 
@@ -78,12 +78,12 @@ public class MessagesController(IMessageRepository messageRespository, IUserRepo
         // .NET8 pattern matching with property patterns 
         if (message is { SenderDeleted: true, RecipientDeleted: true })
         {
-            messageRespository.DeleteMessage(message);
+            messageRepository.DeleteMessage(message);
         }
         //older solution
         // if (message.SenderDeleted == true && message.RecipientDeleted == true) {....}
 
-        if (await messageRespository.SaveAllAsync()) return Ok();
+        if (await messageRepository.SaveAllAsync()) return Ok();
 
         return BadRequest("Problem deleting the message");
     }
