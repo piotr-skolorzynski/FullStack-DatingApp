@@ -34,19 +34,11 @@ export class MessageService {
 
   public threadMessages = computed(() => this.messageThreadResult.value());
 
-  public sendMessage(username: string, content: string): void {
-    console.log({
+  public async sendMessage(username: string, content: string): Promise<any> {
+    return await this.hubConnection?.invoke('SendMessage', {
       recipientUsername: username,
       content,
     });
-
-    this.http
-      .post<IMessage>(`${this.baseUrl}messages`, {
-        recipientUsername: username,
-        content,
-      })
-      .pipe(tap(() => this.paginatedResult.reload()))
-      .subscribe();
   }
 
   public deleteMessage(id: number): void {
@@ -98,6 +90,10 @@ export class MessageService {
     this.hubConnection.on('ReceivedMessageThread', messages =>
       this.messageThread.set(messages)
     );
+
+    this.hubConnection.on('NewMessage', message => {
+      this.messageThread.update(messages => [...messages, message]);
+    });
   }
 
   public stopHubConnection(): void {

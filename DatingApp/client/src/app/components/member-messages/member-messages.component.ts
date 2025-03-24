@@ -1,5 +1,12 @@
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
 import { MessageService } from '../../services/message.service';
 import { AccountService } from '../../services';
@@ -11,6 +18,7 @@ import { AccountService } from '../../services';
   imports: [FormsModule, TimeagoModule],
 })
 export class MemberMessagesComponent implements OnInit, OnDestroy {
+  @ViewChild('messageForm') messageForm?: NgForm;
   public username = input.required<string>();
 
   private readonly messageService = inject(MessageService);
@@ -37,7 +45,8 @@ export class MemberMessagesComponent implements OnInit, OnDestroy {
   }
 
   public sendMessage(): void {
-    this.messageService.sendMessage(this.username(), this.messageContent);
-    this.messageContent = '';
+    this.messageService
+      .sendMessage(this.username(), this.messageContent)
+      .then(() => this.messageForm?.reset());
   }
 }
