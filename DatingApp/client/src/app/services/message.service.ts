@@ -85,9 +85,9 @@ export class MessageService {
       ),
   });
 
-  private createHubConnection(user: IUser, otherUsername: string): void {
+  public createHubConnection(user: IUser, otherUsername: string): void {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${this.baseUrl}message?user=${otherUsername}`, {
+      .withUrl(`${this.hubUrl}message?user=${otherUsername}`, {
         accessTokenFactory: () => user.token,
       })
       .withAutomaticReconnect()
@@ -100,7 +100,7 @@ export class MessageService {
     );
   }
 
-  private stopHubConnection(): void {
+  public stopHubConnection(): void {
     if (this.hubConnection?.state === HubConnectionState.Connected) {
       this.hubConnection.stop().catch(error => console.log(error));
     }

@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <ul class="chat">
-      @for (message of threadMessages(); track message.id) {
+      @for (message of messageThread(); track message.id) {
         <li class="my-3">
           <div>
             <span class="chat-img float-end">
