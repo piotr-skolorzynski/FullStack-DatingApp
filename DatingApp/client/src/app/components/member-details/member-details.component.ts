@@ -8,13 +8,19 @@ import {
 } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GallerizeDirective } from 'ng-gallery/lightbox';
 import { TimeagoModule } from 'ngx-timeago';
 import * as bootstrap from 'bootstrap';
-import { MembersService, PresenceService } from '../../services';
+import {
+  AccountService,
+  MembersService,
+  PresenceService,
+} from '../../services';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
-import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../../services/message.service';
+import { HubConnectionState } from '@microsoft/signalr';
 
 @Component({
   selector: 'app-member-details',
@@ -32,8 +38,11 @@ export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
 
   private readonly memberService = inject(MembersService);
   private readonly route = inject(ActivatedRoute);
-  private subscription = new Subscription();
+  private readonly router = inject(Router);
+  private readonly accountService = inject(AccountService);
   private readonly presenceService = inject(PresenceService);
+  private readonly messageService = inject(MessageService);
+  private subscription = new Subscription();
 
   public isOnline = computed(() =>
     this.presenceService
@@ -52,6 +61,7 @@ export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
         next: params => {
           if (params['tab'] === 'Messages') {
             setTimeout(() => this.switchToMessageTab(), 100);
+            this.onRouteParamsChange();
           }
         },
       })
@@ -64,6 +74,7 @@ export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
 
   public activateMessageTab(): void {
     this.isMessageTabActive = true;
+    this.setParam('Messages');
   }
 
   public switchToMessageTab(): void {
@@ -78,5 +89,28 @@ export class MemberDetailsComponent implements AfterViewInit, OnDestroy {
     if (triggerEl) {
       bootstrap.Tab.getOrCreateInstance(triggerEl).show();
     }
+  }
+
+  public onRouteParamsChange(): void {
+    const user = this.accountService.currentUser();
+    if (!user) {
+      return;
+    }
+
+    if (
+      this.messageService.hubConnection?.state === HubConnectionState.Connected
+    ) {
+      this.messageService.hubConnection.stop().then(() => {
+        this.messageService.createHubConnection(user, this.username());
+      });
+    }
+  }
+
+  public setParam(paramName: string): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab: paramName },
+      queryParamsHandling: 'merge',
+    });
   }
 }

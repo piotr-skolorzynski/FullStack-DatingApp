@@ -19,7 +19,7 @@ export class MessageService {
   private readonly baseUrl = environment.apiUrl;
   private readonly hubUrl = environment.hubsUrl;
   private readonly http = inject(HttpClient);
-  private hubConnection?: HubConnection;
+  public hubConnection?: HubConnection;
   public messagesPagination = signal<IPagination | null>(null);
   public usernameForThread = signal<string>('');
   public messageThread = signal<IMessage[]>([]);

@@ -54,7 +54,8 @@
             type="button"
             role="tab"
             aria-controls="about-tab-pane"
-            aria-selected="true">
+            aria-selected="true"
+            (click)="setParam('About')">
             About {{ member.knownAs }}
           </button>
         </li>
@@ -68,7 +69,8 @@
             type="button"
             role="tab"
             aria-controls="interests-tab-pane"
-            aria-selected="false">
+            aria-selected="false"
+            (click)="setParam('Interests')">
             Interests
           </button>
         </li>
@@ -82,7 +84,8 @@
             type="button"
             role="tab"
             aria-controls="photos-tab-pane"
-            aria-selected="false">
+            aria-selected="false"
+            (click)="setParam('Photos')">
             Photos
           </button>
         </li>
