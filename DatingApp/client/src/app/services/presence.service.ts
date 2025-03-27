@@ -34,11 +34,11 @@ export class PresenceService {
 
     //reakcja na stworzone w presence hub zdarzenia
     this.hubConnection.on('UserIsOnline', username =>
-      this.toastr.info(username + ' has connected')
+      this.onlineUsers.update(users => [...users, username])
     );
 
     this.hubConnection.on('UserIsOffline', username =>
-      this.toastr.warning(username + ' has disconnected')
+      this.onlineUsers.update(users => users.filter(user => user !== username))
     );
 
     this.hubConnection.on('GetOnlineUsers', usernames =>
